@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 840" width="1200" height="840" role="img" aria-label="Arquitectura da plataforma dentro do OpenShift: Kong Gateway, serviços Quarkus com base de dados por serviço, barramento Kafka com Debezium e operadores de suporte">
+  <style>
+    :root{
+      --bg:#ffffff; --surface:#f6f8fa; --surface2:#eaeef2; --border:#d0d7de;
+      --text:#1f2328; --muted:#59636e; --infra:#0969da; --rh:#cf222e; --data:#0f766e;
+      --game:#bc4c00; --git:#1a7f37; --iot:#8250df; --wire:#8c959f;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0d1117; --surface:#161b22; --surface2:#21262d; --border:#30363d;
+        --text:#e6edf3; --muted:#9198a1; --infra:#4493f8; --rh:#ff7b72; --data:#2dd4bf;
+        --game:#f0883e; --git:#3fb950; --iot:#a371f7; --wire:#6e7681;
+      }
+    }
+    text{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;fill:var(--text)}
+    .t {font-size:26px;font-weight:700;letter-spacing:-.4px}
+    .st{font-size:14px;fill:var(--muted)}
+    .h {font-size:15px;font-weight:700}
+    .l {font-size:13px;font-weight:600}
+    .s {font-size:11.5px;fill:var(--muted)}
+    .xs{font-size:10.5px;fill:var(--muted)}
+    .mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-size:11px;fill:var(--muted)}
+    .card{fill:var(--surface);stroke:var(--border);stroke-width:1.5;rx:10}
+    .chip{fill:var(--surface2);stroke:var(--border);stroke-width:1;rx:6}
+    .box{fill:none;stroke:var(--rh);stroke-width:2;rx:14}
+    .w{stroke:var(--wire);stroke-width:2;fill:none}
+  </style>
+  <rect width="1200" height="840" fill="var(--bg)"/>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--wire)"/>
+    </marker>
+  </defs>
+
+  <text class="t" x="40" y="46">Plataforma — o mesmo desenho que uso em produção, à escala de uma secretária</text>
+  <text class="st" x="40" y="70">Base de dados por serviço, outbox transacional, eventos em Kafka. O objectivo do lab é praticar o padrão, não a escala.</text>
+
+  <rect class="box" x="40" y="96" width="828" height="700"/>
+  <text class="h" x="62" y="126" fill="var(--rh)">OpenShift SNO · namespace por domínio</text>
+
+  <!-- Kong -->
+  <rect class="card" x="62" y="146" width="784" height="88"/>
+  <rect x="62" y="146" width="784" height="30" rx="10" fill="var(--infra)" opacity="0.14"/>
+  <text class="l" x="80" y="166" fill="var(--infra)">Borda — Kong Gateway Operator, atrás do Router do OpenShift</text>
+  <text class="s" x="80" y="196">Autenticação, rate limiting, transformação de pedidos e roteamento por caminho.</text>
+  <text class="mono" x="80" y="218">*.apps.sno.lab.home.arpa · TLS terminado no gateway · plugins declarados como CRDs no repo de gitops</text>
+
+  <path class="w" d="M187,234 L187,272" marker-end="url(#a)"/>
+  <path class="w" d="M454,234 L454,272" marker-end="url(#a)"/>
+  <path class="w" d="M721,234 L721,272" marker-end="url(#a)"/>
+
+  <!-- services -->
+  <rect class="card" x="62" y="272" width="250" height="228"/>
+  <text class="l" x="80" y="298">orders-api</text>
+  <text class="xs" x="80" y="316">Quarkus · REST síncrono</text>
+  <text class="s" x="80" y="342">Escreve a encomenda e a linha</text>
+  <text class="s" x="80" y="360">de outbox na mesma transacção.</text>
+  <text class="s" x="80" y="378">Ou as duas persistem, ou nenhuma.</text>
+  <rect class="chip" x="80" y="394" width="98" height="24"/><text class="xs" x="90" y="410">native-image</text>
+  <rect class="chip" x="186" y="394" width="108" height="24"/><text class="xs" x="196" y="410">Hibernate Reactive</text>
+  <rect x="80" y="430" width="214" height="52" rx="8" fill="var(--data)" opacity="0.16"/>
+  <text class="l" x="94" y="450" fill="var(--data)">orders-db</text>
+  <text class="xs" x="94" y="470">CloudNativePG · 1 primária + 1 réplica</text>
+
+  <rect class="card" x="330" y="272" width="250" height="228"/>
+  <text class="l" x="348" y="298">inventory-worker</text>
+  <text class="xs" x="348" y="316">Quarkus · consumidor Kafka</text>
+  <text class="s" x="348" y="342">Consome orders.events, reserva</text>
+  <text class="s" x="348" y="360">stock e emite inventory.events.</text>
+  <text class="s" x="348" y="378">Idempotente por chave de evento.</text>
+  <rect class="chip" x="348" y="394" width="120" height="24"/><text class="xs" x="358" y="410">SmallRye Reactive</text>
+  <rect class="chip" x="476" y="394" width="86" height="24"/><text class="xs" x="486" y="410">KEDA scale</text>
+  <rect x="348" y="430" width="214" height="52" rx="8" fill="var(--data)" opacity="0.16"/>
+  <text class="l" x="362" y="450" fill="var(--data)">inventory-db</text>
+  <text class="xs" x="362" y="470">CloudNativePG · esquema próprio</text>
+
+  <rect class="card" x="598" y="272" width="248" height="228"/>
+  <text class="l" x="616" y="298">query-api</text>
+  <text class="xs" x="616" y="316">Quarkus · modelo de leitura</text>
+  <text class="s" x="616" y="342">Projecção materializada a partir</text>
+  <text class="s" x="616" y="360">dos tópicos. Nunca lê das bases</text>
+  <text class="s" x="616" y="378">de escrita — é esse o exercício.</text>
+  <rect class="chip" x="616" y="394" width="80" height="24"/><text class="xs" x="626" y="410">CQRS</text>
+  <rect class="chip" x="704" y="394" width="124" height="24"/><text class="xs" x="714" y="410">cache Infinispan</text>
+  <rect x="616" y="430" width="212" height="52" rx="8" fill="var(--data)" opacity="0.16"/>
+  <text class="l" x="630" y="450" fill="var(--data)">read-store</text>
+  <text class="xs" x="630" y="470">projecção descartável e reconstruível</text>
+
+  <path class="w" d="M187,500 L187,548" marker-end="url(#a)"/>
+  <path class="w" d="M454,548 L454,500" marker-end="url(#a)"/>
+  <path class="w" d="M721,548 L721,500" marker-end="url(#a)"/>
+  <text class="xs" x="196" y="528">produz</text>
+  <text class="xs" x="463" y="528">consome</text>
+  <text class="xs" x="730" y="528">consome</text>
+
+  <!-- kafka -->
+  <rect class="card" x="62" y="548" width="784" height="150"/>
+  <rect x="62" y="548" width="784" height="30" rx="10" fill="var(--game)" opacity="0.14"/>
+  <text class="l" x="80" y="568" fill="var(--game)">Kafka — operador Strimzi, modo KRaft, sem ZooKeeper</text>
+  <rect class="chip" x="80" y="592" width="180" height="44"/>
+  <text class="l" x="94" y="612">orders.events</text><text class="xs" x="94" y="628">3 partições · retenção 7 d</text>
+  <rect class="chip" x="272" y="592" width="180" height="44"/>
+  <text class="l" x="286" y="612">inventory.events</text><text class="xs" x="286" y="628">3 partições · compactado</text>
+  <rect class="chip" x="464" y="592" width="180" height="44"/>
+  <text class="l" x="478" y="612">*.DLT</text><text class="xs" x="478" y="628">dead letter por consumidor</text>
+  <rect class="chip" x="656" y="592" width="176" height="44"/>
+  <text class="l" x="670" y="612">Schema Registry</text><text class="xs" x="670" y="628">Avro · compat. backward</text>
+  <text class="s" x="80" y="662">Kafka Connect + Debezium lê o WAL do <tspan class="mono">orders-db</tspan> e publica o outbox. A aplicação nunca escreve directamente no tópico —</text>
+  <text class="s" x="80" y="682">é o que garante que não existe evento sem escrita, nem escrita sem evento.</text>
+
+  <text class="s" x="62" y="730">Um broker, réplica 1: chega para aprender operação e falha de consumidor. Não substitui um cluster de três nós — e o repo assume-o.</text>
+  <text class="s" x="62" y="752">Fora do cluster, os LXC <tspan class="mono">kafka</tspan> e <tspan class="mono">postgres</tspan> servem os testes locais do devbox quando o OpenShift está desligado.</text>
+  <text class="s" x="62" y="774">Namespaces: <tspan class="mono">orders</tspan> · <tspan class="mono">inventory</tspan> · <tspan class="mono">query</tspan> · <tspan class="mono">platform-kafka</tspan> · <tspan class="mono">platform-db</tspan> · <tspan class="mono">platform-gateway</tspan> · <tspan class="mono">observability</tspan></text>
+
+  <!-- ===== right column ===== -->
+  <rect class="card" x="890" y="96" width="270" height="164"/>
+  <text class="h" x="908" y="124">Entrega</text>
+  <text class="l" x="908" y="150">OpenShift GitOps (Argo CD)</text>
+  <text class="s" x="908" y="170">App-of-apps. Um Application por</text>
+  <text class="s" x="908" y="188">operador e por serviço.</text>
+  <text class="l" x="908" y="214">OpenShift Pipelines (Tekton)</text>
+  <text class="s" x="908" y="234">Build nativo dentro do cluster,</text>
+  <text class="s" x="908" y="252">com cache de Maven em PVC.</text>
+
+  <rect class="card" x="890" y="276" width="270" height="212"/>
+  <text class="h" x="908" y="304">Observabilidade</text>
+  <text class="s" x="908" y="330">User-workload monitoring já vem</text>
+  <text class="s" x="908" y="348">no cluster: Prometheus + Alerting.</text>
+  <text class="l" x="908" y="376">Grafana Operator</text>
+  <text class="s" x="908" y="394">Dashboards versionados como CRD.</text>
+  <text class="l" x="908" y="422">OpenTelemetry + Tempo</text>
+  <text class="s" x="908" y="440">Traço contínuo do gateway ao</text>
+  <text class="s" x="908" y="458">consumidor, atravessando o tópico.</text>
+  <text class="xs" x="908" y="478">é aqui que o lab paga por si próprio</text>
+
+  <rect class="card" x="890" y="504" width="270" height="150"/>
+  <text class="h" x="908" y="532">Segredos</text>
+  <text class="s" x="908" y="558">SOPS + age no repositório —</text>
+  <text class="s" x="908" y="576">público, logo nada em claro.</text>
+  <text class="s" x="908" y="602">External Secrets Operator injecta</text>
+  <text class="s" x="908" y="620">no cluster. cert-manager emite os</text>
+  <text class="s" x="908" y="638">certificados internos.</text>
+
+  <rect class="card" x="890" y="670" width="270" height="126"/>
+  <text class="h" x="908" y="698">Armazenamento</text>
+  <text class="s" x="908" y="724">LVM Storage Operator sobre o disco</text>
+  <text class="s" x="908" y="742">virtual do nó. RWO apenas.</text>
+  <text class="s" x="908" y="768">Sem RWX: num nó único seria</text>
+  <text class="s" x="908" y="786">cenografia, não arquitectura.</text>
+</svg>

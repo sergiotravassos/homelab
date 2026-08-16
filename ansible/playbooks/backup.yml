@@ -1,0 +1,29 @@
+---
+- name: Backup — Proxmox Backup Server e tarefas de vzdump
+  hosts: proxmox
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Cliente do PBS instalado
+      ansible.builtin.apt:
+        name: proxmox-backup-client
+        state: present
+        update_cache: true
+      tags: [pbs]
+
+    - name: Tarefas de vzdump
+      ansible.builtin.debug:
+        msg: >-
+          {{ item.comment }} — vmid {{ item.vmid }} as {{ item.schedule }},
+          retencao {{ backup_retention.keep_daily }}/{{ backup_retention.keep_weekly }}/{{ backup_retention.keep_monthly }}
+      loop: "{{ backup_jobs }}"
+      loop_control:
+        label: "{{ item.vmid }}"
+      tags: [vzdump]
+
+    - name: Lembrete que este playbook nao substitui
+      ansible.builtin.debug:
+        msg: >-
+          Um backup por restaurar nao e um backup. O restauro trimestral esta
+          em docs/runbooks/03-backup-e-restauro.md, seccao 4.

@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" role="img" aria-label="Blueprint físico do nó homelab: motherboard B850-I, Ryzen 9950X3D com dois CCDs, 64GB DDR5, NVMe, RX 9060 XT em passthrough">
+  <style>
+    :root{
+      --bg:#ffffff; --surface:#f6f8fa; --surface2:#eaeef2; --border:#d0d7de;
+      --text:#1f2328; --muted:#59636e; --infra:#0969da; --rh:#cf222e; --data:#0f766e;
+      --game:#bc4c00; --git:#1a7f37; --iot:#8250df; --wire:#8c959f;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0d1117; --surface:#161b22; --surface2:#21262d; --border:#30363d;
+        --text:#e6edf3; --muted:#9198a1; --infra:#4493f8; --rh:#ff7b72; --data:#2dd4bf;
+        --game:#f0883e; --git:#3fb950; --iot:#a371f7; --wire:#6e7681;
+      }
+    }
+    text{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;fill:var(--text)}
+    .t  {font-size:26px;font-weight:700;letter-spacing:-.4px}
+    .st {font-size:14px;fill:var(--muted)}
+    .h  {font-size:15px;font-weight:700}
+    .l  {font-size:13px;font-weight:600}
+    .s  {font-size:12px;fill:var(--muted)}
+    .xs {font-size:11px;fill:var(--muted)}
+    .mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:var(--muted)}
+    .card{fill:var(--surface);stroke:var(--border);stroke-width:1.5;rx:10}
+    .card2{fill:var(--surface2);stroke:var(--border);stroke-width:1.5;rx:8}
+    .board{fill:none;stroke:var(--border);stroke-width:2;rx:14}
+    .dash{fill:none;stroke:var(--border);stroke-width:1.5;stroke-dasharray:5 4;rx:8}
+    .pill{rx:9}
+  </style>
+  <rect width="1200" height="760" fill="var(--bg)"/>
+
+  <text class="t" x="40" y="46">Camada física — nó único “forge”</text>
+  <text class="st" x="40" y="70">Mini-ITX AM5 · Fractal Ridge · tudo o que está abaixo desta linha é montado à mão, uma única vez</text>
+
+  <!-- ============ MOTHERBOARD ============ -->
+  <rect class="board" x="40" y="96" width="770" height="628"/>
+  <text class="h" x="62" y="126">ASUS ROG Strix B850-I Gaming WiFi</text>
+  <text class="s" x="62" y="145">Mini-ITX · AM5 · 2 × DIMM · 2 × M.2 · 1 × PCIe 5.0 x16</text>
+
+  <!-- CPU package -->
+  <rect class="card" x="62" y="162" width="440" height="248"/>
+  <rect x="62" y="162" width="440" height="30" rx="10" fill="var(--infra)" opacity="0.14"/>
+  <text class="l" x="78" y="182" fill="var(--infra)">AMD Ryzen 9 9950X3D · 16C / 32T · 170 W</text>
+
+  <rect class="card2" x="80" y="206" width="196" height="110"/>
+  <text class="l" x="94" y="228">CCD 0 — 3D V-Cache</text>
+  <text class="s" x="94" y="248">8C / 16T</text>
+  <text class="mono" x="94" y="266">cores 0–7 · 16–23</text>
+  <text class="mono" x="94" y="284">L3: 32 MB + 64 MB</text>
+  <rect x="94" y="294" width="106" height="16" class="pill" fill="var(--game)" opacity="0.18"/>
+  <text class="xs" x="102" y="306" fill="var(--game)" font-weight="700">→ VM gaming</text>
+
+  <rect class="card2" x="288" y="206" width="196" height="110"/>
+  <text class="l" x="302" y="228">CCD 1 — alta frequência</text>
+  <text class="s" x="302" y="248">8C / 16T</text>
+  <text class="mono" x="302" y="266">cores 8–15 · 24–31</text>
+  <text class="mono" x="302" y="284">L3: 32 MB</text>
+  <rect x="302" y="294" width="136" height="16" class="pill" fill="var(--rh)" opacity="0.18"/>
+  <text class="xs" x="310" y="306" fill="var(--rh)" font-weight="700">→ OpenShift · GraalVM</text>
+
+  <rect class="card2" x="80" y="328" width="404" height="66"/>
+  <text class="l" x="94" y="350">I/O Die — Radeon Graphics integrada (RDNA 2, 2 CU)</text>
+  <text class="s" x="94" y="370">Fica com o host: consola do Proxmox, sem disputa com a dGPU</text>
+
+  <!-- RAM -->
+  <rect class="card" x="522" y="162" width="128" height="248"/>
+  <rect x="522" y="162" width="128" height="30" rx="10" fill="var(--data)" opacity="0.14"/>
+  <text class="l" x="536" y="182" fill="var(--data)">DIMM A2</text>
+  <text class="l" x="536" y="222">32 GB</text>
+  <text class="s" x="536" y="242">DDR5-6000</text>
+  <text class="s" x="536" y="260">CL30 · EXPO</text>
+  <text class="xs" x="536" y="286">Kingston</text>
+  <text class="xs" x="536" y="302">FURY Beast</text>
+
+  <rect class="card" x="662" y="162" width="128" height="248"/>
+  <rect x="662" y="162" width="128" height="30" rx="10" fill="var(--data)" opacity="0.14"/>
+  <text class="l" x="676" y="182" fill="var(--data)">DIMM B2</text>
+  <text class="l" x="676" y="222">32 GB</text>
+  <text class="s" x="676" y="242">DDR5-6000</text>
+  <text class="s" x="676" y="260">CL30 · EXPO</text>
+  <text class="xs" x="676" y="286">total: 64 GB</text>
+  <text class="xs" x="676" y="302">2 slots ocupados</text>
+  <rect x="676" y="316" width="102" height="16" class="pill" fill="var(--game)" opacity="0.18"/>
+  <text class="xs" x="684" y="328" fill="var(--game)" font-weight="700">recurso escasso</text>
+
+  <!-- M.2 -->
+  <rect class="card" x="62" y="428" width="360" height="82"/>
+  <text class="l" x="78" y="452">M.2_1 · PCIe 4.0 x4 (CPU)</text>
+  <text class="s" x="78" y="472">Samsung 990 PRO 2 TB · MZ-V9P1T0BW</text>
+  <text class="mono" x="78" y="492">rpool — ZFS · boot + zvols das VMs</text>
+
+  <rect class="dash" x="440" y="428" width="350" height="82"/>
+  <text class="l" x="456" y="452" fill="var(--muted)">M.2_2 · livre</text>
+  <text class="s" x="456" y="472">Upgrade planeado: 2.º NVMe para separar</text>
+  <text class="s" x="456" y="492">boot de dados e sair do single point of failure</text>
+
+  <!-- PCIe -->
+  <rect class="card" x="62" y="526" width="728" height="86"/>
+  <rect x="62" y="526" width="728" height="30" rx="10" fill="var(--game)" opacity="0.14"/>
+  <text class="l" x="78" y="546" fill="var(--game)">PCIe 5.0 x16 — slot único</text>
+  <text class="l" x="78" y="578">Sapphire PULSE Radeon RX 9060 XT 16 GB (RDNA 4)</text>
+  <text class="mono" x="78" y="598">vfio-pci no boot · IOMMU group dedicado · passthrough para a VM Bazzite</text>
+  <rect x="646" y="531" width="128" height="20" class="pill" fill="var(--game)" opacity="0.22"/>
+  <text class="xs" x="660" y="545" fill="var(--game)" font-weight="700">PASSTHROUGH</text>
+
+  <!-- IO -->
+  <rect class="card" x="62" y="628" width="360" height="76"/>
+  <text class="l" x="78" y="652">Realtek RTL8125 · 2.5 GbE</text>
+  <text class="s" x="78" y="672">Único uplink com fio → porta trunk 802.1Q</text>
+  <text class="mono" x="78" y="692">vmbr0 VLAN-aware · todas as VLANs aqui</text>
+
+  <rect class="dash" x="440" y="628" width="350" height="76"/>
+  <text class="l" x="456" y="652" fill="var(--muted)">Wi-Fi 7 + Bluetooth</text>
+  <text class="s" x="456" y="672">Não usado para tráfego de lab.</text>
+  <text class="s" x="456" y="692">Bluetooth passa para a VM Bazzite (comandos).</text>
+
+  <!-- ============ RIGHT COLUMN ============ -->
+  <rect class="card" x="840" y="96" width="320" height="176"/>
+  <text class="h" x="860" y="126">Chassis &amp; térmica</text>
+  <text class="s" x="860" y="152">Fractal Design Ridge — SFF vertical,</text>
+  <text class="s" x="860" y="170">GPU em câmara separada do CPU.</text>
+  <text class="s" x="860" y="196">Thermalright AXP120-X67 — cooler</text>
+  <text class="s" x="860" y="214">low-profile, ar. Sem AIO, sem bomba</text>
+  <text class="s" x="860" y="232">a falhar num equipamento 24/7.</text>
+  <text class="s" x="860" y="258">Corsair SF850 · 850 W SFX Platinum</text>
+
+  <rect class="card" x="840" y="288" width="320" height="200"/>
+  <text class="h" x="860" y="318">Orçamento térmico 24/7</text>
+  <text class="s" x="860" y="344">Este nó fica ligado permanentemente.</text>
+  <text class="s" x="860" y="362">O 9950X3D corre com PBO desligado e</text>
+  <text class="s" x="860" y="380">um limite de PPT conservador — perde-se</text>
+  <text class="s" x="860" y="398">pouco em builds e ganha-se silêncio e</text>
+  <text class="s" x="860" y="416">vida útil.</text>
+  <text class="mono" x="860" y="444">alvo: &lt; 65 °C idle-lab</text>
+  <text class="mono" x="860" y="462">pico de build nativo: &lt; 90 °C</text>
+
+  <rect class="card" x="840" y="504" width="320" height="220"/>
+  <text class="h" x="860" y="534">O que o hardware decide</text>
+  <text class="s" x="860" y="560">1 GPU + 1 iGPU → a dGPU pertence a</text>
+  <text class="s" x="860" y="578">uma VM de cada vez. Não há gaming e</text>
+  <text class="s" x="860" y="596">compute GPU em simultâneo.</text>
+  <text class="s" x="860" y="622">1 NIC → segmentação tem de ser 802.1Q</text>
+  <text class="s" x="860" y="640">num switch gerível, não em NICs físicas.</text>
+  <text class="s" x="860" y="666">64 GB → nem tudo liga ao mesmo tempo.</text>
+  <text class="s" x="860" y="684">Daí os perfis de memória do diagrama 04.</text>
+  <text class="s" x="860" y="710">1 disco → backup é obrigatório, não extra.</text>
+</svg>

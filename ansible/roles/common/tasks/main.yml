@@ -1,0 +1,40 @@
+---
+- name: Fuso horario
+  community.general.timezone:
+    name: "{{ timezone }}"
+
+- name: Pacotes base
+  ansible.builtin.package:
+    name: "{{ common_packages }}"
+    state: present
+
+- name: Sincronizacao de relogio activa
+  ansible.builtin.systemd_service:
+    name: chrony
+    enabled: true
+    state: started
+  failed_when: false
+
+- name: SSH apenas por chave
+  ansible.builtin.copy:
+    dest: /etc/ssh/sshd_config.d/99-homelab.conf
+    mode: "0644"
+    content: |
+      # Gerido por Ansible — nao editar a mao
+      PermitRootLogin prohibit-password
+      PasswordAuthentication no
+      KbdInteractiveAuthentication no
+      X11Forwarding no
+      MaxAuthTries 3
+  notify: Recarregar sshd
+
+- name: Banner que diz de onde vem a maquina
+  ansible.builtin.copy:
+    dest: /etc/motd
+    mode: "0644"
+    content: |
+
+      {{ inventory_hostname }} — homelab
+      Gerido por Ansible a partir de github.com/sergiotravassos/homelab
+      Alteracoes a mao sao revertidas no proximo 'make configure'.
+

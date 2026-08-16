@@ -1,0 +1,28 @@
+---
+- name: Bancada de desenvolvimento
+  hosts: workstation
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Confirmar que e um sistema atomico
+      ansible.builtin.stat:
+        path: /run/ostree-booted
+      register: ostree
+      failed_when: not ostree.stat.exists
+
+    - name: Rebase para a imagem bootc propria
+      ansible.builtin.debug:
+        msg: >-
+          Por implementar:
+            bootc switch ghcr.io/sergiotravassos/homelab-devbox:latest
+          Num sistema atomico a configuracao vive na imagem, nao em tarefas
+          Ansible. Ver bootc/devbox/Containerfile.
+      tags: [bootc]
+
+    - name: Toolchain em distrobox
+      ansible.builtin.debug:
+        msg: >-
+          Por implementar: criar o contentor de desenvolvimento com JDK 21,
+          GraalVM, Quarkus CLI, Maven e oc. Ver docs/roadmap.md, Fase 3.
+      tags: [toolchain]

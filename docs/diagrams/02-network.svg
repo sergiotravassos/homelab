@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 960" width="1200" height="960" role="img" aria-label="Blueprint de rede: router doméstico, switch gerível com trunk 802.1Q, bridge vmbr0 VLAN-aware no Proxmox e seis VLANs de laboratório">
+  <style>
+    :root{
+      --bg:#ffffff; --surface:#f6f8fa; --surface2:#eaeef2; --border:#d0d7de;
+      --text:#1f2328; --muted:#59636e; --infra:#0969da; --rh:#cf222e; --data:#0f766e;
+      --game:#bc4c00; --git:#1a7f37; --iot:#8250df; --wire:#8c959f;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0d1117; --surface:#161b22; --surface2:#21262d; --border:#30363d;
+        --text:#e6edf3; --muted:#9198a1; --infra:#4493f8; --rh:#ff7b72; --data:#2dd4bf;
+        --game:#f0883e; --git:#3fb950; --iot:#a371f7; --wire:#6e7681;
+      }
+    }
+    text{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;fill:var(--text)}
+    .t {font-size:26px;font-weight:700;letter-spacing:-.4px}
+    .st{font-size:14px;fill:var(--muted)}
+    .h {font-size:15px;font-weight:700}
+    .l {font-size:13px;font-weight:600}
+    .s {font-size:12px;fill:var(--muted)}
+    .xs{font-size:11px;fill:var(--muted)}
+    .mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:var(--muted)}
+    .monol{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-size:12px;font-weight:600}
+    .card{fill:var(--surface);stroke:var(--border);stroke-width:1.5;rx:10}
+    .chip{fill:var(--surface2);stroke:var(--border);stroke-width:1;rx:7}
+    .box{fill:none;stroke:var(--border);stroke-width:2;rx:14}
+    .w{stroke:var(--wire);stroke-width:2;fill:none}
+  </style>
+  <rect width="1200" height="960" fill="var(--bg)"/>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--wire)"/>
+    </marker>
+  </defs>
+
+  <text class="t" x="40" y="46">Blueprint de rede — segmentação 802.1Q</text>
+  <text class="st" x="40" y="70">Uma NIC física, um trunk, seis domínios de broadcast. O router de casa continua a ser o router de casa.</text>
+
+  <!-- ================= LEFT: physical path ================= -->
+  <rect class="card" x="40" y="104" width="264" height="58"/>
+  <text class="l" x="58" y="130">Internet</text>
+  <text class="s" x="58" y="149">ISP · PPPoE / fibra</text>
+  <path class="w" d="M172,162 L172,190" marker-end="url(#a)"/>
+
+  <rect class="card" x="40" y="196" width="264" height="92"/>
+  <text class="l" x="58" y="222">Router doméstico</text>
+  <text class="mono" x="58" y="242">192.168.1.1/24 · DHCP</text>
+  <text class="s" x="58" y="262">Não é gerido por este repo.</text>
+  <text class="s" x="58" y="278">Se o lab arder, a casa fica online.</text>
+  <path class="w" d="M172,288 L172,316" marker-end="url(#a)"/>
+
+  <rect class="card" x="40" y="322" width="264" height="124"/>
+  <text class="l" x="58" y="348">Switch gerível L2</text>
+  <text class="s" x="58" y="368">8 portas · 802.1Q · 2.5 GbE</text>
+  <text class="mono" x="58" y="392">porta 1 → trunk (tagged 10–50,</text>
+  <text class="mono" x="58" y="408">          untagged/PVID 1)</text>
+  <text class="mono" x="58" y="424">portas 2–8 → access por VLAN</text>
+  <text class="mono" x="58" y="440">mgmt do switch: 10.10.10.2</text>
+
+  <rect class="card" x="40" y="480" width="264" height="104"/>
+  <text class="l" x="58" y="506">MacBook — terminal</text>
+  <text class="s" x="58" y="526">Fica na LAN de casa. Alcança o lab</text>
+  <text class="s" x="58" y="542">por rota estática para 10.10.0.0/16</text>
+  <text class="s" x="58" y="558">via OPNsense, ou por Tailscale.</text>
+  <text class="mono" x="58" y="578">ssh · oc · tofu · ansible</text>
+
+  <rect class="card" x="40" y="600" width="264" height="88"/>
+  <text class="l" x="58" y="626">TV / sala</text>
+  <text class="s" x="58" y="646">Recebe HDMI directo da RX 9060 XT.</text>
+  <text class="s" x="58" y="662">Não passa pela rede — é a saída</text>
+  <text class="s" x="58" y="678">física da VM Bazzite.</text>
+
+  <rect class="card" x="40" y="704" width="264" height="88"/>
+  <text class="l" x="58" y="730">Dispositivos IoT</text>
+  <text class="s" x="58" y="750">Zigbee/Wi-Fi. Access ports ou SSID</text>
+  <text class="s" x="58" y="766">dedicado, sempre mapeados para a</text>
+  <text class="s" x="58" y="782">VLAN 30. Sem rota para MGMT.</text>
+
+  <rect class="card" x="40" y="810" width="264" height="110"/>
+  <text class="h" x="58" y="836">Domínio DNS</text>
+  <text class="mono" x="58" y="858">lab.home.arpa</text>
+  <text class="s" x="58" y="878">Resolvido pelo Unbound no OPNsense.</text>
+  <text class="s" x="58" y="894">RFC 8375 — não colide com mDNS,</text>
+  <text class="s" x="58" y="910">ao contrário de <tspan class="mono">.local</tspan>.</text>
+
+  <!-- trunk arrow to the right box -->
+  <path class="w" d="M304,384 L340,384" marker-end="url(#a)"/>
+  <text class="xs" x="306" y="376" fill="var(--infra)" font-weight="700">TRUNK</text>
+
+  <!-- ================= RIGHT: proxmox ================= -->
+  <rect class="box" x="340" y="104" width="820" height="816"/>
+  <text class="h" x="362" y="134">Proxmox VE — host “forge”</text>
+  <text class="s" x="362" y="153">enp*s0 → vmbr0, bridge VLAN-aware. Cada guest declara a sua tag; o host não roteia.</text>
+
+  <rect x="362" y="168" width="776" height="34" rx="8" fill="var(--infra)" opacity="0.16"/>
+  <text class="monol" x="378" y="190" fill="var(--infra)">vmbr0 · bridge-vlan-aware yes · bridge-vids 2-4094</text>
+
+  <rect class="card" x="362" y="216" width="776" height="78"/>
+  <text class="l" x="380" y="240">opnsense-lab (VM) — router-on-a-stick só do laboratório</text>
+  <text class="s" x="380" y="260">WAN untagged na LAN de casa; uma sub-interface por VLAN, sempre no .1. Faz DHCP, DNS (Unbound) e firewall inter-VLAN.</text>
+  <text class="mono" x="380" y="282">2 vCPU · 2 GB · regra base: deny inter-VLAN, permitir apenas o que está declarado em ansible/</text>
+
+  <!-- VLAN rows -->
+  <!-- row helper: y0=308, h=84, gap=10 -->
+  <rect class="card" x="362" y="308" width="776" height="84"/>
+  <rect x="362" y="308" width="8" height="84" rx="4" fill="var(--wire)"/>
+  <text class="l" x="386" y="334">untagged · PVID 1</text>
+  <text class="mono" x="386" y="354">192.168.1.0/24</text>
+  <text class="xs" x="386" y="374">LAN de casa</text>
+  <rect class="chip" x="600" y="326" width="180" height="48"/>
+  <text class="l" x="614" y="346">WAN do OPNsense</text>
+  <text class="xs" x="614" y="364">única perna partilhada</text>
+  <rect class="chip" x="796" y="326" width="180" height="48"/>
+  <text class="l" x="810" y="346">Acesso do MacBook</text>
+  <text class="xs" x="810" y="364">entra por aqui</text>
+
+  <rect class="card" x="362" y="402" width="776" height="84"/>
+  <rect x="362" y="402" width="8" height="84" rx="4" fill="var(--infra)"/>
+  <text class="l" x="386" y="428" fill="var(--infra)">VLAN 10 · MGMT</text>
+  <text class="mono" x="386" y="448">10.10.10.0/24</text>
+  <text class="xs" x="386" y="468">plano de gestão</text>
+  <rect class="chip" x="600" y="420" width="150" height="48"/>
+  <text class="l" x="614" y="440">pve · .10</text>
+  <text class="xs" x="614" y="458">web UI + SSH</text>
+  <rect class="chip" x="766" y="420" width="150" height="48"/>
+  <text class="l" x="780" y="440">switch · .2</text>
+  <text class="xs" x="780" y="458">gestão L2</text>
+  <rect class="chip" x="932" y="420" width="180" height="48"/>
+  <text class="l" x="946" y="440">pbs · .11</text>
+  <text class="xs" x="946" y="458">Proxmox Backup Server</text>
+
+  <rect class="card" x="362" y="496" width="776" height="84"/>
+  <rect x="362" y="496" width="8" height="84" rx="4" fill="var(--rh)"/>
+  <text class="l" x="386" y="522" fill="var(--rh)">VLAN 20 · PLATFORM</text>
+  <text class="mono" x="386" y="542">10.10.20.0/24</text>
+  <text class="xs" x="386" y="562">workloads e dados</text>
+  <rect class="chip" x="600" y="514" width="164" height="48"/>
+  <text class="l" x="614" y="534">ocp-sno · .20</text>
+  <text class="xs" x="614" y="552">OpenShift single-node</text>
+  <rect class="chip" x="780" y="514" width="150" height="48"/>
+  <text class="l" x="794" y="534">kafka · .21</text>
+  <text class="xs" x="794" y="552">LXC · KRaft</text>
+  <rect class="chip" x="946" y="514" width="186" height="48"/>
+  <text class="l" x="960" y="534">pg .22 · registry .23</text>
+  <text class="xs" x="960" y="552">PostgreSQL · imagens OCI</text>
+
+  <rect class="card" x="362" y="590" width="776" height="84"/>
+  <rect x="362" y="590" width="8" height="84" rx="4" fill="var(--iot)"/>
+  <text class="l" x="386" y="616" fill="var(--iot)">VLAN 30 · IOT</text>
+  <text class="mono" x="386" y="636">10.10.30.0/24</text>
+  <text class="xs" x="386" y="656">o segmento não-confiável</text>
+  <rect class="chip" x="600" y="608" width="164" height="48"/>
+  <text class="l" x="614" y="628">haos · .30</text>
+  <text class="xs" x="614" y="646">Home Assistant OS</text>
+  <rect class="chip" x="780" y="608" width="332" height="48"/>
+  <text class="l" x="794" y="628">Sensores, lâmpadas, tomadas, câmaras</text>
+  <text class="xs" x="794" y="646">firmware de terceiros — sem rota para MGMT nem PLATFORM</text>
+
+  <rect class="card" x="362" y="684" width="776" height="84"/>
+  <rect x="362" y="684" width="8" height="84" rx="4" fill="var(--game)"/>
+  <text class="l" x="386" y="710" fill="var(--game)">VLAN 40 · GAMING</text>
+  <text class="mono" x="386" y="730">10.10.40.0/24</text>
+  <text class="xs" x="386" y="750">consola de sala</text>
+  <rect class="chip" x="600" y="702" width="164" height="48"/>
+  <text class="l" x="614" y="722">bazzite · .40</text>
+  <text class="xs" x="614" y="740">Steam · GPU dedicada</text>
+  <rect class="chip" x="780" y="702" width="332" height="48"/>
+  <text class="l" x="794" y="722">Saída: HDMI físico + Sunshine/Moonlight</text>
+  <text class="xs" x="794" y="740">precisa de Internet e de mDNS local; nada mais</text>
+
+  <rect class="card" x="362" y="778" width="776" height="84"/>
+  <rect x="362" y="778" width="8" height="84" rx="4" fill="var(--git)"/>
+  <text class="l" x="386" y="804" fill="var(--git)">VLAN 50 · DEV</text>
+  <text class="mono" x="386" y="824">10.10.50.0/24</text>
+  <text class="xs" x="386" y="844">bancada de trabalho</text>
+  <rect class="chip" x="600" y="796" width="164" height="48"/>
+  <text class="l" x="614" y="816">devbox · .50</text>
+  <text class="xs" x="614" y="834">Fedora Silverblue</text>
+  <rect class="chip" x="780" y="796" width="332" height="48"/>
+  <text class="l" x="794" y="816">Única VLAN com rota aberta para PLATFORM</text>
+  <text class="xs" x="794" y="834">é daqui que se faz deploy, debug e port-forward</text>
+
+  <text class="s" x="362" y="892">Regra que governa o desenho: o tráfego que atravessa VLANs passa obrigatoriamente pelo OPNsense e fica registado.</text>
+  <text class="s" x="362" y="910">Enquanto não houver switch gerível, tudo isto colapsa para a VLAN nativa — ver <tspan class="mono">docs/adr/0005</tspan> para o caminho faseado.</text>
+</svg>

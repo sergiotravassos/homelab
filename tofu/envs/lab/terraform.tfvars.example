@@ -1,0 +1,52 @@
+# cp terraform.tfvars.example terraform.tfvars
+#
+# terraform.tfvars esta no .gitignore. Nao ha segredos aqui — mas ha valores
+# especificos desta maquina que so se apuram no metal.
+
+node_name    = "forge"
+datastore_id = "local-zfs"
+username     = "sergio"
+
+# ---------------------------------------------------------------------------
+# Fase de rede. "flat" ate haver switch gerivel; depois "vlan".
+# Ver docs/adr/0005-vlans-com-switch-gerivel.md
+# ---------------------------------------------------------------------------
+network_mode = "flat"
+
+ssh_public_keys = [
+  "ssh-ed25519 AAAA...PREENCHER... sergio@macbook",
+]
+
+# ---------------------------------------------------------------------------
+# Topologia de CPU — APURAR NO METAL, nao copiar.
+#
+#   lscpu -e=CPU,CORE,SOCKET,NODE,CACHE
+#   cat /sys/devices/system/cpu/cpu0/cache/index3/size   # ~96M = CCD com V-Cache
+#   cat /sys/devices/system/cpu/cpu8/cache/index3/size   # ~32M
+#
+# Ver docs/hardware.md#topologia-de-cpu
+# ---------------------------------------------------------------------------
+cpu_ccd0_cpus = "0-7,16-23"    # CCD com 3D V-Cache  -> bazzite
+cpu_ccd1_cpus = "8-15,24-31"   # CCD de alta frequencia -> tudo o resto
+
+# ---------------------------------------------------------------------------
+# Passthrough — APURAR NO METAL:
+#
+#   lspci -nn | grep -i -e VGA -e Audio
+#   lsusb -t && lspci -nn | grep -i usb
+#
+# Deixar a null desliga o passthrough e permite arrancar a bazzite sem GPU
+# para diagnostico. Ver docs/gpu-passthrough.md
+# ---------------------------------------------------------------------------
+gpu_pci_id          = null   # ex.: "0000:03:00"
+usb_controller_host = null   # ex.: "0000:0a:00.3"
+zigbee_usb_host     = null   # ex.: "10c4:ea60"
+
+# ---------------------------------------------------------------------------
+# Imagens
+# ---------------------------------------------------------------------------
+fedora_template_vm_id = 9000
+debian_template       = "local:vztmpl/debian-13-standard_13.0-1_amd64.tar.zst"
+
+# Preencher depois de 'make ocp-iso'
+ocp_iso_file_id = null   # ex.: "local:iso/agent.x86_64.iso"

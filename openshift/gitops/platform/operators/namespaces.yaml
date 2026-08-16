@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform-kafka
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform-db
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform-gateway
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: observability
+  labels:
+    openshift.io/cluster-monitoring: "true"

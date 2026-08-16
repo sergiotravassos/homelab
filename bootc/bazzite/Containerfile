@@ -1,0 +1,33 @@
+# Consola da sala — imagem derivada do Bazzite.
+#
+# O Bazzite ja traz o essencial para jogar. Esta camada acrescenta apenas o que
+# e especifico deste lab: streaming interno, monitorizacao e afinacoes de VM.
+#
+# Publicada em ghcr.io e adoptada com:
+#   bootc switch ghcr.io/sergiotravassos/homelab-bazzite:latest
+
+FROM ghcr.io/ublue-os/bazzite:latest
+
+LABEL org.opencontainers.image.source="https://github.com/sergiotravassos/homelab"
+LABEL org.opencontainers.image.description="Steam Machine do homelab"
+LABEL org.opencontainers.image.licenses="MIT"
+
+# ---------------------------------------------------------------------------
+# qemu-guest-agent: sem ele o Proxmox nao consegue desligar a VM com jeito,
+# e os perfis de memoria dependem de um shutdown limpo.
+# ---------------------------------------------------------------------------
+RUN rpm-ostree install \
+      qemu-guest-agent \
+      htop \
+    && rpm-ostree cleanup -m \
+    && ostree container commit
+
+RUN systemctl enable qemu-guest-agent
+
+COPY etc/ /etc/
+
+# ---------------------------------------------------------------------------
+# O Sunshine ja vem no Bazzite. Fica activado aqui para o streaming interno
+# funcionar sem configuracao manual depois de cada reinstalacao.
+# ---------------------------------------------------------------------------
+RUN systemctl --global enable sunshine.service || true

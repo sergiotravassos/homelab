@@ -1,0 +1,17 @@
+# Que caminhos sao cifrados e com que chave.
+# A chave privada vive em ~/.config/sops/age/keys.txt e NUNCA entra em Git.
+#
+#   age-keygen -o ~/.config/sops/age/keys.txt
+#   sops -e -i <ficheiro>
+#
+# Substituir pela chave publica real antes do primeiro uso.
+creation_rules:
+  - path_regex: \.sops\.(yaml|yml|json|env)$
+    age: &lab_key "age1PREENCHER_COM_A_CHAVE_PUBLICA_REAL"
+
+  - path_regex: ^ansible/inventories/.*/group_vars/.*/vault\.ya?ml$
+    age: *lab_key
+
+  - path_regex: ^openshift/gitops/.*/secrets?/.*\.ya?ml$
+    age: *lab_key
+    encrypted_regex: "^(data|stringData)$"

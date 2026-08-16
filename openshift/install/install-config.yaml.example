@@ -1,0 +1,44 @@
+---
+# Preencher com envsubst — ver README.md desta pasta.
+# NUNCA commitar a versao preenchida: contem o pull secret.
+
+apiVersion: v1
+baseDomain: lab.home.arpa
+
+metadata:
+  name: sno
+
+# Single-node: um master, zero workers. O master corre tambem as cargas de
+# trabalho. Ver docs/adr/0003-openshift-sno.md
+controlPlane:
+  name: master
+  replicas: 1
+  architecture: amd64
+  hyperthreading: Enabled
+
+compute:
+  - name: worker
+    replicas: 0
+    architecture: amd64
+
+networking:
+  networkType: OVNKubernetes
+  # Sub-redes internas do cluster. NAO podem sobrepor-se a 10.10.0.0/16,
+  # que e a supernet do laboratorio — daí o 10.128 e o 172.30.
+  clusterNetwork:
+    - cidr: 10.128.0.0/14
+      hostPrefix: 23
+  serviceNetwork:
+    - 172.30.0.0/16
+  machineNetwork:
+    - cidr: 10.10.20.0/24
+
+platform:
+  none: {}
+
+# Sem etcd em disco separado: ha um disco so. Ver docs/adr/0006.
+bootstrapInPlace:
+  installationDisk: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
+
+pullSecret: '${PULL_SECRET}'
+sshKey: '${SSH_KEY}'

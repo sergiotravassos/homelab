@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 880" width="1240" height="880" role="img" aria-label="Camada de virtualização: seis guests sobre Proxmox VE com alocação de vCPU, RAM, pinning por CCD e passthrough PCI da GPU">
+  <style>
+    :root{
+      --bg:#ffffff; --surface:#f6f8fa; --surface2:#eaeef2; --border:#d0d7de;
+      --text:#1f2328; --muted:#59636e; --infra:#0969da; --rh:#cf222e; --data:#0f766e;
+      --game:#bc4c00; --git:#1a7f37; --iot:#8250df; --wire:#8c959f;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0d1117; --surface:#161b22; --surface2:#21262d; --border:#30363d;
+        --text:#e6edf3; --muted:#9198a1; --infra:#4493f8; --rh:#ff7b72; --data:#2dd4bf;
+        --game:#f0883e; --git:#3fb950; --iot:#a371f7; --wire:#6e7681;
+      }
+    }
+    text{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;fill:var(--text)}
+    .t {font-size:26px;font-weight:700;letter-spacing:-.4px}
+    .st{font-size:14px;fill:var(--muted)}
+    .h {font-size:16px;font-weight:700}
+    .l {font-size:13px;font-weight:600}
+    .s {font-size:12px;fill:var(--muted)}
+    .xs{font-size:10.5px;fill:var(--muted)}
+    .mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:var(--muted)}
+    .card{fill:var(--surface);stroke:var(--border);stroke-width:1.5;rx:12}
+    .chip{fill:var(--surface2);stroke:var(--border);stroke-width:1;rx:6}
+  </style>
+  <rect width="1240" height="880" fill="var(--bg)"/>
+  <defs>
+    <marker id="p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--game)"/>
+    </marker>
+  </defs>
+
+  <text class="t" x="40" y="46">Camada de virtualização — quem recebe o quê</text>
+  <text class="st" x="40" y="70">Seis guests declarados em OpenTofu. Nenhum é criado pela interface web: a UI serve para observar, não para provisionar.</text>
+
+  <!-- ================= ROW 1 ================= -->
+  <!-- ocp-sno -->
+  <rect class="card" x="40" y="96" width="360" height="268"/>
+  <rect x="40" y="96" width="360" height="34" rx="12" fill="var(--rh)" opacity="0.15"/>
+  <text class="h" x="58" y="120" fill="var(--rh)">ocp-sno</text>
+  <text class="xs" x="330" y="118" fill="var(--rh)" font-weight="700">VLAN 20</text>
+  <text class="l" x="58" y="156">OpenShift 4.x Single-Node</text>
+  <text class="s" x="58" y="175">RHCOS · install agent-based · Ignition</text>
+  <rect class="chip" x="58" y="190" width="100" height="40"/>
+  <text class="l" x="70" y="207">12 vCPU</text><text class="xs" x="70" y="223">CCD 1</text>
+  <rect class="chip" x="166" y="190" width="100" height="40"/>
+  <text class="l" x="178" y="207">24 GB</text><text class="xs" x="178" y="223">sem balloon</text>
+  <rect class="chip" x="274" y="190" width="108" height="40"/>
+  <text class="l" x="286" y="207">200 GB</text><text class="xs" x="286" y="223">zvol rpool</text>
+  <text class="s" x="58" y="256">Corre: OpenShift GitOps (Argo CD),</text>
+  <text class="s" x="58" y="274">Pipelines (Tekton), Strimzi, CloudNativePG,</text>
+  <text class="s" x="58" y="292">Kong Gateway, monitorização de workloads.</text>
+  <text class="mono" x="58" y="318">api.sno.lab.home.arpa</text>
+  <text class="mono" x="58" y="336">*.apps.sno.lab.home.arpa</text>
+  <text class="xs" x="58" y="356" fill="var(--rh)" font-weight="700">SOB PROCURA — o maior consumidor de RAM do lab</text>
+
+  <!-- devbox -->
+  <rect class="card" x="420" y="96" width="360" height="268"/>
+  <rect x="420" y="96" width="360" height="34" rx="12" fill="var(--git)" opacity="0.15"/>
+  <text class="h" x="438" y="120" fill="var(--git)">devbox</text>
+  <text class="xs" x="710" y="118" fill="var(--git)" font-weight="700">VLAN 50</text>
+  <text class="l" x="438" y="156">Fedora Silverblue (bootc)</text>
+  <text class="s" x="438" y="175">Imagem própria em ghcr.io · rebase declarativo</text>
+  <rect class="chip" x="438" y="190" width="100" height="40"/>
+  <text class="l" x="450" y="207">8 vCPU</text><text class="xs" x="450" y="223">CCD 1</text>
+  <rect class="chip" x="546" y="190" width="100" height="40"/>
+  <text class="l" x="558" y="207">16 GB</text><text class="xs" x="558" y="223">balloon 8–16</text>
+  <rect class="chip" x="654" y="190" width="108" height="40"/>
+  <text class="l" x="666" y="207">150 GB</text><text class="xs" x="666" y="223">zvol rpool</text>
+  <text class="s" x="438" y="256">Alvo do JetBrains Gateway. Toolchain em</text>
+  <text class="s" x="438" y="274">distrobox: JDK 21, GraalVM, Quarkus CLI,</text>
+  <text class="s" x="438" y="292">Maven, Podman, oc, tofu, ansible.</text>
+  <text class="mono" x="438" y="318">builds nativos GraalVM correm aqui,</text>
+  <text class="mono" x="438" y="336">não no MacBook</text>
+  <text class="xs" x="438" y="356" fill="var(--git)" font-weight="700">SOB PROCURA</text>
+
+  <!-- bazzite -->
+  <rect class="card" x="800" y="96" width="360" height="268"/>
+  <rect x="800" y="96" width="360" height="34" rx="12" fill="var(--game)" opacity="0.15"/>
+  <text class="h" x="818" y="120" fill="var(--game)">bazzite</text>
+  <text class="xs" x="1090" y="118" fill="var(--game)" font-weight="700">VLAN 40</text>
+  <text class="l" x="818" y="156">Bazzite — Steam Machine</text>
+  <text class="s" x="818" y="175">Fedora Atomic · imagem derivada própria</text>
+  <rect class="chip" x="818" y="190" width="100" height="40"/>
+  <text class="l" x="830" y="207">8 vCPU</text><text class="xs" x="830" y="223">CCD 0 pinned</text>
+  <rect class="chip" x="926" y="190" width="100" height="40"/>
+  <text class="l" x="938" y="207">16 GB</text><text class="xs" x="938" y="223">hugepages</text>
+  <rect class="chip" x="1034" y="190" width="108" height="40"/>
+  <text class="l" x="1046" y="207">250 GB</text><text class="xs" x="1046" y="223">zvol rpool</text>
+  <text class="s" x="818" y="256">Recebe a RX 9060 XT inteira, o controlador</text>
+  <text class="s" x="818" y="274">USB traseiro e o Bluetooth. CPU governor</text>
+  <text class="s" x="818" y="292">performance, isolcpus nos cores do CCD 0.</text>
+  <text class="mono" x="818" y="318">q35 · OVMF · vIOMMU off · MSI on</text>
+  <text class="xs" x="818" y="356" fill="var(--game)" font-weight="700">SOB PROCURA — exclusivo com cargas GPU</text>
+
+  <!-- ================= ROW 2 ================= -->
+  <!-- platform -->
+  <rect class="card" x="40" y="386" width="360" height="216"/>
+  <rect x="40" y="386" width="360" height="34" rx="12" fill="var(--data)" opacity="0.15"/>
+  <text class="h" x="58" y="410" fill="var(--data)">platform · 3 × LXC</text>
+  <text class="xs" x="330" y="408" fill="var(--data)" font-weight="700">VLAN 20</text>
+  <text class="s" x="58" y="444">Serviços com estado, fora do cluster — do</text>
+  <text class="s" x="58" y="462">mesmo modo que em produção não se corre</text>
+  <text class="s" x="58" y="480">a base de dados no mesmo sítio que a app.</text>
+  <rect class="chip" x="58" y="494" width="104" height="38"/>
+  <text class="l" x="70" y="510">kafka</text><text class="xs" x="70" y="526">KRaft · 4 GB</text>
+  <rect class="chip" x="170" y="494" width="104" height="38"/>
+  <text class="l" x="182" y="510">postgres</text><text class="xs" x="182" y="526">16 · 4 GB</text>
+  <rect class="chip" x="282" y="494" width="104" height="38"/>
+  <text class="l" x="294" y="510">registry</text><text class="xs" x="294" y="526">OCI · 2 GB</text>
+  <text class="mono" x="58" y="556">contentores não-privilegiados, 12 GB no total</text>
+  <text class="xs" x="58" y="586" fill="var(--data)" font-weight="700">SOB PROCURA — sobe com o perfil platform</text>
+
+  <!-- haos -->
+  <rect class="card" x="420" y="386" width="360" height="216"/>
+  <rect x="420" y="386" width="360" height="34" rx="12" fill="var(--iot)" opacity="0.15"/>
+  <text class="h" x="438" y="410" fill="var(--iot)">haos</text>
+  <text class="xs" x="710" y="408" fill="var(--iot)" font-weight="700">VLAN 30</text>
+  <text class="l" x="438" y="444">Home Assistant OS</text>
+  <text class="s" x="438" y="463">Imagem qcow2 oficial, appliance fechada.</text>
+  <rect class="chip" x="438" y="478" width="100" height="38"/>
+  <text class="l" x="450" y="494">2 vCPU</text><text class="xs" x="450" y="510">CCD 1</text>
+  <rect class="chip" x="546" y="478" width="100" height="38"/>
+  <text class="l" x="558" y="494">4 GB</text><text class="xs" x="558" y="510">fixo</text>
+  <rect class="chip" x="654" y="478" width="108" height="38"/>
+  <text class="l" x="666" y="494">32 GB</text><text class="xs" x="666" y="510">zvol rpool</text>
+  <text class="s" x="438" y="542">Dongle Zigbee/Z-Wave por USB passthrough.</text>
+  <text class="s" x="438" y="560">Configuração versionada por Git add-on.</text>
+  <text class="xs" x="438" y="586" fill="var(--iot)" font-weight="700">SEMPRE LIGADA — a casa depende dela</text>
+
+  <!-- opnsense -->
+  <rect class="card" x="800" y="386" width="360" height="216"/>
+  <rect x="800" y="386" width="360" height="34" rx="12" fill="var(--infra)" opacity="0.15"/>
+  <text class="h" x="818" y="410" fill="var(--infra)">opnsense-lab</text>
+  <text class="xs" x="1078" y="408" fill="var(--infra)" font-weight="700">TRUNK</text>
+  <text class="l" x="818" y="444">Router e firewall do laboratório</text>
+  <text class="s" x="818" y="463">Não substitui o router de casa.</text>
+  <rect class="chip" x="818" y="478" width="100" height="38"/>
+  <text class="l" x="830" y="494">2 vCPU</text><text class="xs" x="830" y="510">CCD 1</text>
+  <rect class="chip" x="926" y="478" width="100" height="38"/>
+  <text class="l" x="938" y="494">2 GB</text><text class="xs" x="938" y="510">fixo</text>
+  <rect class="chip" x="1034" y="478" width="108" height="38"/>
+  <text class="l" x="1046" y="494">20 GB</text><text class="xs" x="1046" y="510">zvol rpool</text>
+  <text class="s" x="818" y="542">DHCP e Unbound para lab.home.arpa,</text>
+  <text class="s" x="818" y="560">incluindo o wildcard *.apps do OpenShift.</text>
+  <text class="xs" x="818" y="586" fill="var(--infra)" font-weight="700">SEMPRE LIGADA — sem ela não há DNS de lab</text>
+
+  <!-- ================= HYPERVISOR ================= -->
+  <rect class="card" x="40" y="628" width="1120" height="86"/>
+  <rect x="40" y="628" width="1120" height="34" rx="12" fill="var(--infra)" opacity="0.15"/>
+  <text class="h" x="58" y="652" fill="var(--infra)">Proxmox VE — KVM/QEMU + LXC</text>
+  <text class="s" x="58" y="686">ZFS <tspan class="mono">rpool</tspan> (ashift=12, compression=zstd, ARC limitada a 8 GB) · bridge <tspan class="mono">vmbr0</tspan> VLAN-aware · vzdump nocturno para o PBS</text>
+  <text class="s" x="58" y="704">Única peça instalada à mão. Tudo o que corre por cima nasce de <tspan class="mono">tofu apply</tspan> e <tspan class="mono">ansible-playbook</tspan>.</text>
+
+  <!-- ================= HARDWARE ================= -->
+  <rect class="card" x="40" y="738" width="1120" height="106"/>
+  <text class="h" x="58" y="768">Hardware</text>
+  <rect class="chip" x="200" y="752" width="176" height="38"/>
+  <text class="l" x="214" y="768">Ryzen 9 9950X3D</text><text class="xs" x="214" y="784">16C / 32T · 2 CCDs</text>
+  <rect class="chip" x="388" y="752" width="150" height="38"/>
+  <text class="l" x="402" y="768">64 GB DDR5</text><text class="xs" x="402" y="784">6000 CL30 EXPO</text>
+  <rect class="chip" x="550" y="752" width="160" height="38"/>
+  <text class="l" x="564" y="768">990 PRO 2 TB</text><text class="xs" x="564" y="784">PCIe 4.0 NVMe</text>
+  <rect class="chip" x="900" y="752" width="180" height="38" stroke="var(--game)" stroke-width="2"/>
+  <text class="l" x="914" y="768" fill="var(--game)">RX 9060 XT 16 GB</text><text class="xs" x="914" y="784">vfio-pci</text>
+  <rect class="chip" x="722" y="752" width="166" height="38"/>
+  <text class="l" x="736" y="768">RTL8125 2.5 GbE</text><text class="xs" x="736" y="784">trunk 802.1Q</text>
+  <text class="s" x="58" y="820">Reservado ao host: ~6 GB de RAM (ARC + serviços). Restam ~58 GB para guests — o teto real de tudo o que está acima.</text>
+
+  <!-- passthrough line -->
+  <path d="M1080,771 L1194,771 L1194,240 L1166,240" stroke="var(--game)" stroke-width="2.5" stroke-dasharray="7 5" fill="none" marker-end="url(#p)"/>
+  <text class="l" x="1216" y="506" text-anchor="middle" fill="var(--game)" transform="rotate(-90,1216,506)">PCI passthrough — o hipervisor não toca</text>
+</svg>

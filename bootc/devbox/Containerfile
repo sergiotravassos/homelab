@@ -1,0 +1,52 @@
+# Bancada de desenvolvimento — Fedora Silverblue com o toolchain Java.
+#
+# Construida por .github/workflows/bootc-images.yml e publicada em ghcr.io.
+# A VM adopta-a com:  bootc switch ghcr.io/sergiotravassos/homelab-devbox:latest
+
+FROM quay.io/fedora/fedora-bootc:42
+
+LABEL org.opencontainers.image.source="https://github.com/sergiotravassos/homelab"
+LABEL org.opencontainers.image.description="Bancada de desenvolvimento do homelab"
+LABEL org.opencontainers.image.licenses="MIT"
+
+# ---------------------------------------------------------------------------
+# Camada de sistema. So aqui entra o que precisa mesmo de estar na imagem:
+# tudo o que puder viver num contentor de desenvolvimento fica em distrobox.
+# ---------------------------------------------------------------------------
+RUN dnf -y install \
+      git git-lfs gh \
+      podman podman-compose buildah skopeo \
+      distrobox toolbox \
+      make gcc gcc-c++ \
+      zsh tmux ripgrep fd-find bat jq yq \
+      openssh-server \
+      qemu-guest-agent \
+      java-21-openjdk-devel maven \
+    && dnf clean all \
+    && rm -rf /var/cache/dnf
+
+# ---------------------------------------------------------------------------
+# JetBrains Gateway precisa de um sshd estavel — e o unico servico exposto.
+# ---------------------------------------------------------------------------
+RUN systemctl enable sshd qemu-guest-agent
+
+COPY etc/ /etc/
+
+# GraalVM: instalado em /opt para nao depender do gestor de pacotes.
+# A versao esta fixada de proposito — builds nativos nao gostam de surpresas.
+ARG GRAALVM_VERSION=21.0.2
+RUN curl -fsSL "https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-${GRAALVM_VERSION}/graalvm-community-jdk-${GRAALVM_VERSION}_linux-x64_bin.tar.gz" \
+      | tar -xz -C /opt \
+    && mv /opt/graalvm-community-openjdk-* /opt/graalvm \
+    && /opt/graalvm/bin/native-image --version
+
+ENV GRAALVM_HOME=/opt/graalvm
+ENV PATH="/opt/graalvm/bin:${PATH}"
+
+# ---------------------------------------------------------------------------
+# NOTA: o Quarkus CLI, o oc e o tofu ficam de fora de proposito.
+# Vivem no contentor distrobox de desenvolvimento, onde podem ser trocados de
+# versao sem reconstruir e reiniciar a maquina inteira.
+# ---------------------------------------------------------------------------
+
+RUN bootc container lint

@@ -1,0 +1,64 @@
+---
+# Liga os dispositivos declarados ao vfio-pci.
+#
+# Nao inventa IDs: se vfio_device_ids estiver vazio, nao escreve nada.
+# Os IDs sao apurados no metal — ver docs/gpu-passthrough.md
+
+- name: Sem dispositivos declarados — nada a fazer
+  ansible.builtin.debug:
+    msg: >-
+      vfio_device_ids esta vazio. Apurar com 'lspci -nn | grep -i -e VGA -e Audio'
+      e preencher em inventories/lab/group_vars/proxmox.yml.
+  when: vfio_device_ids | length == 0
+
+- name: Configurar o vfio-pci
+  when: vfio_device_ids | length > 0
+  block:
+
+    - name: Confirmar que o IOMMU esta activo
+      ansible.builtin.command: dmesg
+      register: dmesg_out
+      changed_when: false
+      failed_when: >-
+        'AMD-Vi' not in dmesg_out.stdout and 'IOMMU enabled' not in dmesg_out.stdout
+
+    - name: Confirmar que cada dispositivo esta isolado no seu grupo IOMMU
+      ansible.builtin.shell: >-
+        set -o pipefail;
+        for g in /sys/kernel/iommu_groups/*/devices/*; do
+          echo "${g%/devices/*}|${g##*/}"
+        done
+      args:
+        executable: /bin/bash
+      register: iommu_groups
+      changed_when: false
+
+    - name: Modulos vfio carregados no arranque
+      ansible.builtin.copy:
+        dest: /etc/modules-load.d/vfio.conf
+        mode: "0644"
+        content: |
+          vfio
+          vfio_iommu_type1
+          vfio_pci
+      notify: Regenerar initramfs
+
+    - name: Ligar os dispositivos ao vfio-pci
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/vfio.conf
+        mode: "0644"
+        content: |
+          # Gerido por Ansible — ver docs/gpu-passthrough.md
+          options vfio-pci ids={{ vfio_device_ids | join(',') }} disable_vga=1
+      notify: Regenerar initramfs
+
+    - name: Impedir que o host reclame a placa
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/blacklist-gpu.conf
+        mode: "0644"
+        content: |
+          # Gerido por Ansible
+          {% for m in vfio_blacklist_modules %}
+          blacklist {{ m }}
+          {% endfor %}
+      notify: Regenerar initramfs

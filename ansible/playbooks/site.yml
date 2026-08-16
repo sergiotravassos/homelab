@@ -1,0 +1,12 @@
+---
+# Ponto de entrada. Corre tudo, pela ordem certa.
+#   make configure
+
+- name: Host Proxmox
+  ansible.builtin.import_playbook: proxmox-host.yml
+
+- name: Servicos de plataforma
+  ansible.builtin.import_playbook: platform.yml
+
+- name: Bancada de desenvolvimento
+  ansible.builtin.import_playbook: devbox.yml

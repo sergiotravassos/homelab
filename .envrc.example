@@ -1,0 +1,19 @@
+# cp .envrc.example .envrc && direnv allow
+# O .envrc esta no .gitignore. Nunca commitar valores reais.
+
+use mise
+
+# --- Proxmox ---
+export PVE_HOST="10.10.10.10"
+export PROXMOX_VE_ENDPOINT="https://${PVE_HOST}:8006/"
+export PROXMOX_VE_API_TOKEN="tofu@pve!homelab=$(security find-generic-password -a "$USER" -s homelab-proxmox-token -w 2>/dev/null)"
+export PROXMOX_VE_INSECURE="true"   # certificado auto-assinado do lab
+
+# --- Segredos ---
+export SOPS_AGE_KEY_FILE="${HOME}/.config/sops/age/keys.txt"
+
+# --- OpenShift ---
+export KUBECONFIG="${HOME}/.kube/config-sno"
+
+# --- Ansible ---
+export ANSIBLE_INVENTORY="${PWD}/ansible/inventories/lab"

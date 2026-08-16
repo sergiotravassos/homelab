@@ -1,0 +1,29 @@
+# cp backend.tf.example backend.tf
+#
+# O estado do OpenTofu e um artefacto critico: descreve tudo o que existe.
+# Nunca no disco do Mac, nunca neste repositorio (o .gitignore exclui backend.tf).
+#
+# Qualquer servico compativel com S3 serve — MinIO num NAS, Backblaze B2,
+# Cloudflare R2. O importante e ter versionamento ligado no bucket.
+
+terraform {
+  backend "s3" {
+    bucket = "PREENCHER"
+    key    = "homelab/lab.tfstate"
+    region = "auto"
+
+    endpoints = {
+      s3 = "https://PREENCHER"
+    }
+
+    # necessario para backends nao-AWS
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
+    use_path_style              = true
+
+    # credenciais vem do ambiente:
+    #   AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY
+  }
+}

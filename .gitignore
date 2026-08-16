@@ -1,0 +1,63 @@
+# ---- Segredos: nunca, em circunstância nenhuma ----
+*.tfvars
+!*.tfvars.example
+*.pem
+*.key
+!*.pub
+*-key.txt
+age.key
+keys.txt
+.envrc
+pull-secret*.json
+kubeconfig
+kubeconfig-*
+auth/
+.decrypted~*
+*.dec.yaml
+
+# ---- OpenTofu / Terraform ----
+.terraform/
+# .terraform.lock.hcl E versionado de proposito: fixa os hashes dos providers
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+tfplan
+*.tfplan
+backend.tf
+
+# ---- Ansible ----
+*.retry
+ansible/collections/
+ansible/roles/external/
+.ansible/
+fact_cache/
+
+# ---- Packer ----
+packer_cache/
+output-*/
+*.box
+
+# ---- OpenShift ----
+openshift/install/work/
+.openshift_install*
+agent.x86_64.iso
+*.iso
+
+# ---- Ferramentas locais ----
+.DS_Store
+.idea/
+*.iml
+.vscode/
+*.swp
+*~
+.tool-versions
+.direnv/
+
+# ---- Artefactos de trabalho ----
+tmp/
+scratch/
+*.log

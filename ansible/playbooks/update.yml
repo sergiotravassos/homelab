@@ -1,0 +1,47 @@
+---
+# Actualizacao mensal. Corre sempre a partir de um PR, nunca a martelo.
+#   make update
+
+- name: Actualizar o host Proxmox
+  hosts: proxmox
+  become: true
+  serial: 1
+
+  tasks:
+    - name: Snapshot ZFS antes de mexer
+      ansible.builtin.command: >-
+        zfs snapshot -r {{ zfs_pool }}@pre-update-{{ ansible_date_time.epoch }}
+      changed_when: true
+      tags: [snapshot]
+
+    - name: Actualizar pacotes
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: true
+        autoremove: true
+      register: apt_result
+      tags: [packages]
+
+    - name: Avisar se e preciso reiniciar
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Reinicio necessario
+      ansible.builtin.debug:
+        msg: >-
+          O host precisa de reiniciar. Fazer com o perfil idle activo e
+          confirmar com 'make verify-host' depois.
+      when: reboot_required.stat.exists
+
+- name: Actualizar os guests geridos
+  hosts: platform:workstation
+  become: true
+  serial: 1
+
+  tasks:
+    - name: Actualizar pacotes
+      ansible.builtin.package:
+        name: "*"
+        state: latest
+      tags: [packages]

@@ -1,0 +1,12 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespaces.yaml
+
+# As aplicacoes de demonstracao vivem em repositorios proprios — codigo e
+# infraestrutura tem ritmos diferentes. Este directorio guarda apenas os
+# namespaces e as referencias.
+#
+# Ver docs/roadmap.md, Fase 6.

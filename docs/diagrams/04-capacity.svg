@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-label="Perfis de memória: seis cenários de arranque comparados contra o tecto de 64 GB de RAM">
+  <style>
+    :root{
+      --bg:#ffffff; --surface:#f6f8fa; --surface2:#eaeef2; --border:#d0d7de;
+      --text:#1f2328; --muted:#59636e; --infra:#0969da; --rh:#cf222e; --data:#0f766e;
+      --game:#bc4c00; --git:#1a7f37; --iot:#8250df; --wire:#8c959f;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0d1117; --surface:#161b22; --surface2:#21262d; --border:#30363d;
+        --text:#e6edf3; --muted:#9198a1; --infra:#4493f8; --rh:#ff7b72; --data:#2dd4bf;
+        --game:#f0883e; --git:#3fb950; --iot:#a371f7; --wire:#6e7681;
+      }
+    }
+    text{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;fill:var(--text)}
+    .t {font-size:26px;font-weight:700;letter-spacing:-.4px}
+    .st{font-size:14px;fill:var(--muted)}
+    .h {font-size:15px;font-weight:700}
+    .l {font-size:13px;font-weight:600}
+    .s {font-size:12px;fill:var(--muted)}
+    .xs{font-size:10.5px;fill:var(--muted)}
+    .seg{font-size:11px;font-weight:700;fill:#ffffff}
+    .mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;fill:var(--muted)}
+    .card{fill:var(--surface);stroke:var(--border);stroke-width:1.5;rx:10}
+    .free{fill:var(--surface2);stroke:var(--border);stroke-width:1;stroke-dasharray:4 3}
+  </style>
+  <rect width="1200" height="900" fill="var(--bg)"/>
+
+  <text class="t" x="40" y="46">Perfis de memória — 64 GB não chegam para tudo ao mesmo tempo</text>
+  <text class="st" x="40" y="70">Escala: 10 px = 1 GB. A linha vermelha é o tecto físico. Cada perfil é um alvo do <tspan class="mono">Makefile</tspan> que liga e desliga guests.</text>
+
+  <!-- ceiling -->
+  <line x1="980" y1="110" x2="980" y2="650" stroke="var(--rh)" stroke-width="2" stroke-dasharray="6 4"/>
+  <text class="l" x="912" y="104" fill="var(--rh)">64 GB físicos</text>
+  <text class="xs" x="1000" y="104">zona impossível</text>
+
+  <!-- ROW 1 -->
+  <text class="h" x="40" y="162">idle</text>
+  <text class="xs" x="40" y="180">sempre ligado, 24/7</text>
+  <text class="mono" x="40" y="200">12 GB · 52 livres</text>
+  <rect x="340" y="140" width="60" height="56" fill="var(--wire)" rx="4"/><text class="seg" x="352" y="173">host 6</text>
+  <rect x="400" y="140" width="20" height="56" fill="var(--infra)"/>
+  <rect x="420" y="140" width="40" height="56" fill="var(--iot)"/><text class="seg" x="430" y="173">4</text>
+  <rect class="free" x="460" y="140" width="520" height="56" rx="4"/>
+  <text class="s" x="480" y="173">livre para o que o dia pedir</text>
+
+  <!-- ROW 2 -->
+  <text class="h" x="40" y="248">gaming</text>
+  <text class="xs" x="40" y="266">sala, comando na mão</text>
+  <text class="mono" x="40" y="286">28 GB · 36 livres</text>
+  <rect x="340" y="226" width="60" height="56" fill="var(--wire)" rx="4"/><text class="seg" x="352" y="259">host</text>
+  <rect x="400" y="226" width="20" height="56" fill="var(--infra)"/>
+  <rect x="420" y="226" width="40" height="56" fill="var(--iot)"/>
+  <rect x="460" y="226" width="160" height="56" fill="var(--game)"/><text class="seg" x="474" y="259">bazzite 16</text>
+  <rect class="free" x="620" y="226" width="360" height="56" rx="4"/>
+
+  <!-- ROW 3 -->
+  <text class="h" x="40" y="334">dev</text>
+  <text class="xs" x="40" y="352">código + Kafka + Postgres</text>
+  <text class="mono" x="40" y="372">40 GB · 24 livres</text>
+  <rect x="340" y="312" width="60" height="56" fill="var(--wire)" rx="4"/><text class="seg" x="352" y="345">host</text>
+  <rect x="400" y="312" width="20" height="56" fill="var(--infra)"/>
+  <rect x="420" y="312" width="40" height="56" fill="var(--iot)"/>
+  <rect x="460" y="312" width="160" height="56" fill="var(--git)"/><text class="seg" x="474" y="345">devbox 16</text>
+  <rect x="620" y="312" width="120" height="56" fill="var(--data)"/><text class="seg" x="634" y="345">LXC 12</text>
+  <rect class="free" x="740" y="312" width="240" height="56" rx="4"/>
+  <text class="s" x="760" y="345">o perfil de todos os dias</text>
+
+  <!-- ROW 4 -->
+  <text class="h" x="40" y="420">platform</text>
+  <text class="xs" x="40" y="438">OpenShift + dados</text>
+  <text class="mono" x="40" y="458">48 GB · 16 livres</text>
+  <rect x="340" y="398" width="60" height="56" fill="var(--wire)" rx="4"/><text class="seg" x="352" y="431">host</text>
+  <rect x="400" y="398" width="20" height="56" fill="var(--infra)"/>
+  <rect x="420" y="398" width="40" height="56" fill="var(--iot)"/>
+  <rect x="460" y="398" width="240" height="56" fill="var(--rh)"/><text class="seg" x="474" y="431">ocp-sno 24</text>
+  <rect x="700" y="398" width="120" height="56" fill="var(--data)"/><text class="seg" x="714" y="431">LXC 12</text>
+  <rect class="free" x="820" y="398" width="160" height="56" rx="4"/>
+
+  <!-- ROW 5 -->
+  <text class="h" x="40" y="506">full-lab</text>
+  <text class="xs" x="40" y="524">tudo menos o gaming</text>
+  <text class="mono" x="40" y="544" fill="var(--game)">64 GB · 0 livres</text>
+  <rect x="340" y="484" width="60" height="56" fill="var(--wire)" rx="4"/><text class="seg" x="352" y="517">host</text>
+  <rect x="400" y="484" width="20" height="56" fill="var(--infra)"/>
+  <rect x="420" y="484" width="40" height="56" fill="var(--iot)"/>
+  <rect x="460" y="484" width="240" height="56" fill="var(--rh)"/><text class="seg" x="474" y="517">ocp-sno 24</text>
+  <rect x="700" y="484" width="120" height="56" fill="var(--data)"/><text class="seg" x="714" y="517">LXC 12</text>
+  <rect x="820" y="484" width="160" height="56" fill="var(--git)"/><text class="seg" x="834" y="517">devbox 16</text>
+  <text class="l" x="996" y="517" fill="var(--game)">no limite</text>
+
+  <!-- ROW 6 -->
+  <text class="h" x="40" y="592" fill="var(--rh)">gaming + platform</text>
+  <text class="xs" x="40" y="610">não existe</text>
+  <text class="mono" x="40" y="630" fill="var(--rh)">80 GB · faltam 16</text>
+  <rect x="340" y="570" width="60" height="56" fill="var(--wire)" rx="4"/><text class="seg" x="352" y="603">host</text>
+  <rect x="400" y="570" width="20" height="56" fill="var(--infra)"/>
+  <rect x="420" y="570" width="40" height="56" fill="var(--iot)"/>
+  <rect x="460" y="570" width="240" height="56" fill="var(--rh)"/><text class="seg" x="474" y="603">ocp-sno 24</text>
+  <rect x="700" y="570" width="120" height="56" fill="var(--data)"/><text class="seg" x="714" y="603">LXC 12</text>
+  <rect x="820" y="570" width="160" height="56" fill="var(--git)"/><text class="seg" x="834" y="603">devbox 16</text>
+  <rect x="980" y="570" width="160" height="56" fill="var(--game)" opacity="0.45"/>
+  <rect x="980" y="570" width="160" height="56" fill="none" stroke="var(--rh)" stroke-width="2" stroke-dasharray="5 4"/>
+  <text class="seg" x="994" y="603" fill="var(--rh)">bazzite 16</text>
+
+  <!-- legend -->
+  <rect class="card" x="40" y="676" width="1120" height="60"/>
+  <text class="l" x="58" y="712">Legenda:</text>
+  <rect x="130" y="698" width="14" height="14" fill="var(--wire)" rx="3"/><text class="s" x="150" y="710">host + ARC</text>
+  <rect x="240" y="698" width="14" height="14" fill="var(--infra)" rx="3"/><text class="s" x="260" y="710">opnsense</text>
+  <rect x="350" y="698" width="14" height="14" fill="var(--iot)" rx="3"/><text class="s" x="370" y="710">haos</text>
+  <rect x="440" y="698" width="14" height="14" fill="var(--rh)" rx="3"/><text class="s" x="460" y="710">ocp-sno</text>
+  <rect x="545" y="698" width="14" height="14" fill="var(--data)" rx="3"/><text class="s" x="565" y="710">LXC de plataforma</text>
+  <rect x="700" y="698" width="14" height="14" fill="var(--git)" rx="3"/><text class="s" x="720" y="710">devbox</text>
+  <rect x="805" y="698" width="14" height="14" fill="var(--game)" rx="3"/><text class="s" x="825" y="710">bazzite</text>
+  <rect class="free" x="900" y="698" width="14" height="14" rx="3"/><text class="s" x="920" y="710">livre</text>
+
+  <!-- notes -->
+  <rect class="card" x="40" y="756" width="546" height="120"/>
+  <text class="h" x="58" y="784">Como se corre o full-lab a sério</text>
+  <text class="s" x="58" y="808">Encostar aos 64 GB é pedir OOM. As três alavancas, por ordem:</text>
+  <text class="s" x="58" y="828">baixar a ARC do ZFS de 8 para 4 GB, dar balloon 8–16 ao devbox e</text>
+  <text class="s" x="58" y="848">arrancar o OpenShift antes de tudo o resto. Fica em ~58 GB com</text>
+  <text class="s" x="58" y="868">6 GB de folga — que é a margem mínima honesta.</text>
+
+  <rect class="card" x="606" y="756" width="554" height="120"/>
+  <text class="h" x="624" y="784">O upgrade que resolve isto</text>
+  <text class="s" x="624" y="808">Duas DIMMs, dois slots — a única saída é trocar por 2 × 48 GB</text>
+  <text class="s" x="624" y="828">(96 GB). Em AM5 com 2 DIMMs de dupla face espera-se cair para</text>
+  <text class="s" x="624" y="848">DDR5-5600 ou menos; para este lab a capacidade vale mais do que</text>
+  <text class="s" x="624" y="868">os 6000 CL30. Fica em aberto — o lab funciona sem isso.</text>
+</svg>

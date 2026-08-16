@@ -1,0 +1,42 @@
+---
+# Variaveis partilhadas por todos os guests geridos.
+
+ansible_user: sergio
+timezone: Europe/Lisbon
+locale: pt_PT.UTF-8
+keyboard_layout: pt
+
+# ---------------------------------------------------------------------------
+# Fase de rede. Tem de coincidir com network_mode em tofu/envs/lab/terraform.tfvars
+#   flat -> tudo untagged na LAN de casa
+#   vlan -> segmentacao 802.1Q completa
+# ---------------------------------------------------------------------------
+network_mode: flat
+
+lab_domain: lab.home.arpa
+lab_supernet: 10.10.0.0/16
+
+vlans:
+  mgmt:     { id: 10, cidr: 10.10.10.0/24, gateway: 10.10.10.1 }
+  platform: { id: 20, cidr: 10.10.20.0/24, gateway: 10.10.20.1 }
+  iot:      { id: 30, cidr: 10.10.30.0/24, gateway: 10.10.30.1 }
+  gaming:   { id: 40, cidr: 10.10.40.0/24, gateway: 10.10.40.1 }
+  dev:      { id: 50, cidr: 10.10.50.0/24, gateway: 10.10.50.1 }
+
+# ---------------------------------------------------------------------------
+# Topologia de CPU — APURAR NO METAL. Ver docs/hardware.md#topologia-de-cpu
+# A associacao entre CCD e indice de CPU nao e garantida por contrato.
+# ---------------------------------------------------------------------------
+cpu_ccd0_cpus: "0-7,16-23"    # CCD com 3D V-Cache
+cpu_ccd1_cpus: "8-15,24-31"   # CCD de alta frequencia
+
+# Pacotes que todos os guests Linux levam
+common_packages:
+  - vim
+  - git
+  - curl
+  - jq
+  - htop
+  - tmux
+  - rsync
+  - chrony

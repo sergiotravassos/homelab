@@ -1,0 +1,7 @@
+# Gerido por Ansible — ver docs/capacity.md
+#
+# A ARC compete com os guests pela memoria, que e o recurso escasso deste lab.
+# Sem limite, o ZFS reclama ate metade da RAM exactamente quando os guests
+# mais precisam dela.
+options zfs zfs_arc_max={{ zfs_arc_max_gb * 1024 * 1024 * 1024 }}
+options zfs zfs_arc_min={{ zfs_arc_min_gb * 1024 * 1024 * 1024 }}

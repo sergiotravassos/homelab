@@ -1,0 +1,50 @@
+---
+# Configuracao do no para o instalador agent-based.
+#
+# O macAddress TEM de coincidir com local.mac.ocp_sno em tofu/envs/lab/locals.tf.
+# Se divergir, o no arranca e nunca recebe a configuracao de rede.
+
+apiVersion: v1beta1
+kind: AgentConfig
+
+metadata:
+  name: sno
+
+rendezvousIP: 10.10.20.20
+
+hosts:
+  - hostname: ocp-sno
+    role: master
+
+    interfaces:
+      - name: enp0s18
+        macAddress: "BC:24:11:00:01:20"
+
+    networkConfig:
+      interfaces:
+        - name: enp0s18
+          type: ethernet
+          state: up
+          mac-address: "BC:24:11:00:01:20"
+          ipv4:
+            enabled: true
+            dhcp: false
+            address:
+              - ip: 10.10.20.20
+                prefix-length: 24
+          ipv6:
+            enabled: false
+
+      dns-resolver:
+        config:
+          server:
+            - 10.10.20.1     # Unbound do OPNsense
+          search:
+            - lab.home.arpa
+
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 10.10.20.1
+            next-hop-interface: enp0s18
+            table-id: 254

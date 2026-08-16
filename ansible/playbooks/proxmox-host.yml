@@ -1,0 +1,54 @@
+---
+- name: Configurar o host Proxmox
+  hosts: proxmox
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Confirmar que se trata mesmo de um host Proxmox
+      ansible.builtin.stat:
+        path: /usr/bin/pveversion
+      register: pve_check
+      failed_when: not pve_check.stat.exists
+
+  roles:
+    - role: common
+      tags: [common]
+    - role: vfio
+      tags: [vfio, gpu]
+
+  tasks:
+    - name: Afinar a ARC do ZFS
+      ansible.builtin.template:
+        src: zfs.conf.j2
+        dest: /etc/modprobe.d/zfs.conf
+        mode: "0644"
+      notify: Regenerar initramfs
+      tags: [zfs]
+
+    - name: Propriedades da pool
+      community.general.zfs:
+        name: "{{ zfs_pool }}"
+        state: present
+        extra_zfs_properties:
+          atime: "off"
+          compression: zstd
+          xattr: sa
+      tags: [zfs]
+
+    - name: Scrub mensal
+      ansible.builtin.cron:
+        name: "zfs scrub {{ zfs_pool }}"
+        cron_file: zfs-scrub
+        user: root
+        job: "/usr/sbin/zpool scrub {{ zfs_pool }}"
+        minute: "0"
+        hour: "4"
+        day: "1-7"
+        weekday: "0"
+      tags: [zfs]
+
+  handlers:
+    - name: Regenerar initramfs
+      ansible.builtin.command: update-initramfs -u -k all
+      changed_when: true

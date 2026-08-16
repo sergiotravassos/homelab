@@ -1,0 +1,32 @@
+---
+# O OpenShift ja traz Prometheus e Alertmanager. Basta ligar a monitorizacao
+# de cargas de utilizador — nao ha razao para instalar um segundo Prometheus.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+data:
+  config.yaml: |
+    enableUserWorkload: true
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-workload-monitoring-config
+  namespace: openshift-user-workload-monitoring
+data:
+  config.yaml: |
+    prometheus:
+      retention: 15d
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 20Gi
+      resources:
+        requests:
+          memory: 512Mi
+        limits:
+          memory: 1Gi

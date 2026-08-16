@@ -1,0 +1,47 @@
+---
+# Operadores da plataforma. Wave -1: os CRD tem de existir antes das instancias.
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-operators
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sergiotravassos/homelab.git
+    targetRevision: main
+    path: openshift/gitops/platform/operators
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions:
+      - CreateNamespace=true
+
+---
+# Instancias geridas pelos operadores acima. Wave 0.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-instances
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sergiotravassos/homelab.git
+    targetRevision: main
+    path: openshift/gitops/platform/instances
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 10
+      backoff: { duration: 20s, factor: 2, maxDuration: 10m }

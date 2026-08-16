@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-label="Fluxo de trabalho: ciclo de infraestrutura do MacBook até ao Proxmox, e ciclo de aplicação do código até ao OpenShift via Argo CD">
+  <style>
+    :root{
+      --bg:#ffffff; --surface:#f6f8fa; --surface2:#eaeef2; --border:#d0d7de;
+      --text:#1f2328; --muted:#59636e; --infra:#0969da; --rh:#cf222e; --data:#0f766e;
+      --game:#bc4c00; --git:#1a7f37; --iot:#8250df; --wire:#8c959f;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0d1117; --surface:#161b22; --surface2:#21262d; --border:#30363d;
+        --text:#e6edf3; --muted:#9198a1; --infra:#4493f8; --rh:#ff7b72; --data:#2dd4bf;
+        --game:#f0883e; --git:#3fb950; --iot:#a371f7; --wire:#6e7681;
+      }
+    }
+    text{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;fill:var(--text)}
+    .t {font-size:26px;font-weight:700;letter-spacing:-.4px}
+    .st{font-size:14px;fill:var(--muted)}
+    .sec{font-size:16px;font-weight:700}
+    .h {font-size:14px;font-weight:700}
+    .s {font-size:11.5px;fill:var(--muted)}
+    .xs{font-size:10.5px;fill:var(--muted)}
+    .mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-size:11px;fill:var(--muted)}
+    .card{fill:var(--surface);stroke:var(--border);stroke-width:1.5;rx:10}
+    .w{stroke:var(--wire);stroke-width:2;fill:none}
+  </style>
+  <rect width="1200" height="900" fill="var(--bg)"/>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--wire)"/>
+    </marker>
+  </defs>
+
+  <text class="t" x="40" y="46">Fluxo de trabalho — o Mac só escreve, nunca hospeda</text>
+  <text class="st" x="40" y="70">Nenhum estado vive no portátil. Perder o MacBook custa o tempo de um <tspan class="mono">git clone</tspan> e de restaurar duas chaves.</text>
+
+  <!-- ===== SECTION A ===== -->
+  <text class="sec" x="40" y="118" fill="var(--infra)">1 · Ciclo de infraestrutura — o que cria as máquinas</text>
+
+  <rect class="card" x="280" y="134" width="700" height="62" stroke-dasharray="5 4"/>
+  <text class="h" x="298" y="158">GitHub Actions · portão de PR (não faz deploy)</text>
+  <text class="mono" x="298" y="180">tofu fmt · tofu validate · tflint · trivy config · ansible-lint · yamllint · gitleaks</text>
+
+  <rect class="card" x="40" y="224" width="200" height="128"/>
+  <text class="h" x="58" y="250">MacBook</text>
+  <text class="s" x="58" y="272">Editor, terminal, chaves.</text>
+  <text class="mono" x="58" y="294">mise · direnv · git</text>
+  <text class="mono" x="58" y="312">tofu · ansible · oc</text>
+  <text class="xs" x="58" y="336">zero workloads a correr aqui</text>
+
+  <rect class="card" x="280" y="224" width="200" height="128"/>
+  <text class="h" x="298" y="250">repo <tspan class="mono" style="font-size:13px;fill:var(--text)">homelab</tspan></text>
+  <text class="s" x="298" y="272">Este repositório.</text>
+  <text class="s" x="298" y="292">Fonte de verdade de tudo</text>
+  <text class="s" x="298" y="310">o que não é o instalador</text>
+  <text class="s" x="298" y="328">do Proxmox.</text>
+
+  <rect class="card" x="520" y="224" width="230" height="128"/>
+  <text class="h" x="538" y="250">Aplicação, a partir do Mac</text>
+  <text class="mono" x="538" y="276">make plan &amp;&amp; make apply</text>
+  <text class="s" x="538" y="298">OpenTofu fala com a API do</text>
+  <text class="s" x="538" y="316">Proxmox; Ansible entra por SSH</text>
+  <text class="s" x="538" y="334">e termina a configuração.</text>
+
+  <rect class="card" x="790" y="224" width="190" height="128"/>
+  <text class="h" x="808" y="250">Proxmox VE</text>
+  <text class="s" x="808" y="272">API em 10.10.10.10</text>
+  <text class="s" x="808" y="292">Token dedicado, com</text>
+  <text class="s" x="808" y="310">privilégio mínimo.</text>
+  <text class="xs" x="808" y="336">estado remoto fora do host</text>
+
+  <rect class="card" x="1020" y="224" width="140" height="128"/>
+  <text class="h" x="1038" y="250">Guests</text>
+  <text class="s" x="1038" y="274">VMs e LXC do</text>
+  <text class="s" x="1038" y="292">diagrama 03,</text>
+  <text class="s" x="1038" y="310">reprodutíveis a</text>
+  <text class="s" x="1038" y="328">partir do zero.</text>
+
+  <path class="w" d="M240,288 L276,288" marker-end="url(#a)"/>
+  <path class="w" d="M480,288 L516,288" marker-end="url(#a)"/>
+  <path class="w" d="M750,288 L786,288" marker-end="url(#a)"/>
+  <path class="w" d="M980,288 L1016,288" marker-end="url(#a)"/>
+  <path class="w" d="M380,224 L380,200" marker-end="url(#a)"/>
+
+  <!-- ===== SECTION B ===== -->
+  <text class="sec" x="40" y="418" fill="var(--rh)">2 · Ciclo de aplicação — o que corre dentro do cluster</text>
+
+  <rect class="card" x="40" y="436" width="200" height="128"/>
+  <text class="h" x="58" y="462">MacBook → devbox</text>
+  <text class="s" x="58" y="484">JetBrains Gateway abre a</text>
+  <text class="s" x="58" y="502">IDE contra a VM devbox.</text>
+  <text class="s" x="58" y="520">O código é compilado do</text>
+  <text class="s" x="58" y="538">lado do lab, não do Mac.</text>
+  <text class="xs" x="58" y="556">o Mac é ecrã e teclado</text>
+
+  <rect class="card" x="280" y="436" width="200" height="128"/>
+  <text class="h" x="298" y="462">repo da app</text>
+  <text class="s" x="298" y="484">Serviço Quarkus.</text>
+  <text class="s" x="298" y="504">Repositório separado —</text>
+  <text class="s" x="298" y="522">código e infraestrutura</text>
+  <text class="s" x="298" y="540">têm ritmos diferentes.</text>
+
+  <rect class="card" x="520" y="436" width="230" height="128"/>
+  <text class="h" x="538" y="462">Build</text>
+  <text class="s" x="538" y="484">Tekton dentro do cluster</text>
+  <text class="s" x="538" y="502">(OpenShift Pipelines) ou</text>
+  <text class="s" x="538" y="520">GitHub Actions quando o</text>
+  <text class="s" x="538" y="538">cluster está desligado.</text>
+  <text class="mono" x="538" y="558">GraalVM native-image</text>
+
+  <rect class="card" x="790" y="436" width="190" height="128"/>
+  <text class="h" x="808" y="462">Registry OCI</text>
+  <text class="s" x="808" y="484">LXC local para o dia-a-dia,</text>
+  <text class="s" x="808" y="502">ghcr.io para o que quero</text>
+  <text class="s" x="808" y="520">mostrar a alguém.</text>
+  <text class="xs" x="808" y="546">imagens assinadas com cosign</text>
+
+  <rect class="card" x="1020" y="436" width="140" height="128"/>
+  <text class="h" x="1038" y="462">Tag</text>
+  <text class="s" x="1038" y="486">Digest imutável,</text>
+  <text class="s" x="1038" y="504">nunca <tspan class="mono">:latest</tspan>.</text>
+  <text class="s" x="1038" y="526">É o único elo</text>
+  <text class="s" x="1038" y="544">entre os dois ciclos.</text>
+
+  <path class="w" d="M240,500 L276,500" marker-end="url(#a)"/>
+  <path class="w" d="M480,500 L516,500" marker-end="url(#a)"/>
+  <path class="w" d="M750,500 L786,500" marker-end="url(#a)"/>
+  <path class="w" d="M980,500 L1016,500" marker-end="url(#a)"/>
+
+  <!-- bridge down -->
+  <path class="w" d="M1090,564 L1090,596 L380,596 L380,624" marker-end="url(#a)"/>
+  <text class="xs" x="700" y="590">bump do digest no repo de gitops — um commit, revisível, reversível</text>
+
+  <!-- deploy row -->
+  <rect class="card" x="280" y="624" width="200" height="128"/>
+  <text class="h" x="298" y="650">repo <tspan class="mono" style="font-size:12px;fill:var(--text)">gitops</tspan></text>
+  <text class="s" x="298" y="672">Kustomize: base + overlay</text>
+  <text class="s" x="298" y="690">por ambiente.</text>
+  <text class="s" x="298" y="712">Segredos com SOPS + age,</text>
+  <text class="s" x="298" y="730">cifrados dentro do Git.</text>
+
+  <rect class="card" x="520" y="624" width="230" height="128"/>
+  <text class="h" x="538" y="650">Argo CD</text>
+  <text class="s" x="538" y="672">OpenShift GitOps, já incluído</text>
+  <text class="s" x="538" y="690">no cluster. App-of-apps a</text>
+  <text class="s" x="538" y="708">observar este repositório.</text>
+  <text class="mono" x="538" y="732">sync automático · self-heal · prune</text>
+
+  <rect class="card" x="790" y="624" width="370" height="128"/>
+  <text class="h" x="808" y="650" fill="var(--rh)">OpenShift SNO</text>
+  <text class="s" x="808" y="674">Kong Gateway na borda → serviços Quarkus → Kafka (Strimzi) →</text>
+  <text class="s" x="808" y="692">PostgreSQL (CloudNativePG). Outbox entre a escrita e o evento.</text>
+  <text class="s" x="808" y="714">Prometheus e Grafana pelo user-workload monitoring;</text>
+  <text class="s" x="808" y="732">tracing distribuído por OpenTelemetry + Tempo.</text>
+
+  <path class="w" d="M480,688 L516,688" marker-end="url(#a)"/>
+  <path class="w" d="M750,688 L786,688" marker-end="url(#a)"/>
+
+  <!-- footer -->
+  <rect class="card" x="40" y="782" width="1120" height="88" stroke-dasharray="5 4"/>
+  <text class="h" x="58" y="808">A regra que mantém os dois ciclos honestos</text>
+  <text class="s" x="58" y="832">Nada chega ao cluster por <tspan class="mono">oc apply</tspan> a partir de um portátil. Se não está no Git, não existe — e se alguém mexer à mão, o self-heal do Argo CD desfaz.</text>
+  <text class="s" x="58" y="854">O mesmo vale por baixo: uma VM criada na interface do Proxmox é uma VM que ninguém consegue recriar. O <tspan class="mono">tofu plan</tspan> denuncia-a no dia seguinte.</text>
+</svg>

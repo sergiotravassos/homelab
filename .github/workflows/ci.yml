@@ -1,0 +1,131 @@
+---
+name: ci
+
+# Portao de PR. NAO faz deploy: nao ha runner dentro do lab e expor a API do
+# Proxmox para dar acesso a um runner do GitHub seria trocar seguranca por
+# conveniencia. Ver docs/adr/0002-opentofu-provider-bpg.md
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  secrets:
+    name: segredos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # o gitleaks precisa do historico completo
+
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  tofu:
+    name: opentofu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: 1.10.6
+
+      - name: fmt
+        run: tofu fmt -recursive -check -diff tofu/
+
+      - name: init e validate
+        run: |
+          cd tofu/envs/lab
+          tofu init -backend=false -input=false
+          tofu validate
+
+      - uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: v0.58.1
+
+      - name: tflint
+        run: |
+          tflint --init
+          tflint --recursive --chdir=tofu
+
+      - name: trivy — configuracao
+        uses: aquasecurity/trivy-action@0.31.0
+        with:
+          scan-type: config
+          scan-ref: tofu/
+          severity: HIGH,CRITICAL
+          exit-code: "1"
+
+  ansible:
+    name: ansible
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: instalar
+        run: pip install ansible-core ansible-lint yamllint
+
+      - name: yamllint
+        run: yamllint -c .yamllint .
+
+      - name: ansible-lint
+        run: ansible-lint ansible/
+        env:
+          ANSIBLE_CONFIG: ansible/ansible.cfg
+
+  shell:
+    name: shell
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: shellcheck
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y shellcheck
+          shellcheck bootstrap/proxmox/*.sh scripts/*.sh
+
+  manifests:
+    name: manifestos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: kustomize build
+        run: |
+          curl -sSL "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          for d in $(find openshift/gitops -name kustomization.yaml -printf '%h\n'); do
+            echo "--> $d"
+            ./kustomize build "$d" > /dev/null
+          done
+
+  diagrams:
+    name: diagramas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: SVG bem formados
+        run: |
+          for f in docs/diagrams/*.svg; do
+            python3 -c "import xml.dom.minidom,sys; xml.dom.minidom.parse(sys.argv[1])" "$f"
+            echo "ok $f"
+          done
+
+      - name: ligacoes internas nao partidas
+        run: python3 scripts/check-links.py

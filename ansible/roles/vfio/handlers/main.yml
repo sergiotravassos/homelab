@@ -1,0 +1,11 @@
+---
+- name: Regenerar initramfs
+  ansible.builtin.command: update-initramfs -u -k all
+  changed_when: true
+  notify: Avisar que e preciso reiniciar
+
+- name: Avisar que e preciso reiniciar
+  ansible.builtin.debug:
+    msg: >-
+      initramfs regenerado. E preciso reiniciar o host e depois confirmar com
+      'lspci -nnk -d 1002:' que o driver em uso e vfio-pci.

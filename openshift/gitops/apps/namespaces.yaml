@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: orders
+  labels:
+    app.kubernetes.io/part-of: demo
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: inventory
+  labels:
+    app.kubernetes.io/part-of: demo
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: query
+  labels:
+    app.kubernetes.io/part-of: demo

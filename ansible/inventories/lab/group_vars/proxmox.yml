@@ -1,0 +1,55 @@
+---
+# Configuracao especifica do host Proxmox.
+
+# ---------------------------------------------------------------------------
+# ZFS
+# ---------------------------------------------------------------------------
+zfs_pool: rpool
+zfs_arc_max_gb: 8      # baixar para 4 no perfil full-lab — ver docs/capacity.md
+zfs_arc_min_gb: 2
+zfs_scrub_schedule: "0 4 1-7 * 0"
+
+# ---------------------------------------------------------------------------
+# Passthrough — APURAR NO METAL com:
+#     lspci -nn | grep -i -e VGA -e Audio
+#
+# Lista vazia significa "nao ligar nada ao vfio-pci". O papel vfio nao inventa
+# IDs: se estiver vazio, nao escreve /etc/modprobe.d/vfio.conf.
+# Ver docs/gpu-passthrough.md
+# ---------------------------------------------------------------------------
+vfio_device_ids: []
+#   - "1002:xxxx"   # Sapphire PULSE RX 9060 XT
+#   - "1002:xxxx"   # funcao de audio HDMI da mesma placa
+
+vfio_blacklist_modules:
+  - amdgpu
+  - radeon
+  - snd_hda_intel
+
+# ---------------------------------------------------------------------------
+# Rede
+# ---------------------------------------------------------------------------
+pve_bridge: vmbr0
+pve_mgmt_address: 10.10.10.10/24
+pve_mgmt_gateway: 10.10.10.1
+
+# ---------------------------------------------------------------------------
+# Backup — ver docs/runbooks/03-backup-e-restauro.md
+# ---------------------------------------------------------------------------
+pbs_host: 10.10.10.11
+pbs_datastore: homelab
+backup_retention:
+  keep_daily: 7
+  keep_weekly: 4
+  keep_monthly: 6
+
+backup_jobs:
+  - { vmid: 110, schedule: "03:00", comment: "haos — a casa depende deste" }
+  - { vmid: 100, schedule: "03:15", comment: "opnsense — regras de firewall" }
+  - { vmid: 200, schedule: "03:30", comment: "kafka" }
+  - { vmid: 201, schedule: "03:40", comment: "postgres" }
+  - { vmid: 202, schedule: "03:50", comment: "registry" }
+  - { vmid: 130, schedule: "sun 04:00", comment: "devbox — semanal" }
+# ocp-sno e bazzite nao sao salvaguardados de proposito: reinstalaveis.
+
+alert_email: root
