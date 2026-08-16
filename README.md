@@ -1,3 +1,5 @@
+**Português** · [English](README.en.md)
+
 # homelab
 
 **Um nó. Seis máquinas. Tudo em Git.**
@@ -284,7 +286,7 @@ aqui é a arquitectura decidida e o esqueleto de código que a implementa.
 |---|---|
 | Arquitectura, diagramas, ADRs | desenhado |
 | Bootstrap do Proxmox | escrito, por validar no metal |
-| OpenTofu — módulos e ambiente | escrito, por validar no metal |
+| OpenTofu — módulos e ambiente | escrito, validado contra o schema do provider, por validar no metal |
 | Ansible — inventário e papéis | esqueleto |
 | Imagens bootc — Bazzite e devbox | esqueleto |
 | Instalação do OpenShift SNO | documentada, por correr |
