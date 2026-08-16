@@ -17,10 +17,10 @@
 
     - name: Confirmar que o IOMMU esta activo
       ansible.builtin.command: dmesg
-      register: dmesg_out
+      register: vfio_dmesg
       changed_when: false
       failed_when: >-
-        'AMD-Vi' not in dmesg_out.stdout and 'IOMMU enabled' not in dmesg_out.stdout
+        'AMD-Vi' not in vfio_dmesg.stdout and 'IOMMU enabled' not in vfio_dmesg.stdout
 
     - name: Confirmar que cada dispositivo esta isolado no seu grupo IOMMU
       ansible.builtin.shell: >-
@@ -30,7 +30,7 @@
         done
       args:
         executable: /bin/bash
-      register: iommu_groups
+      register: vfio_iommu_groups
       changed_when: false
 
     - name: Modulos vfio carregados no arranque

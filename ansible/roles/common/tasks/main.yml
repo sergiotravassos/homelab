@@ -37,4 +37,3 @@
       {{ inventory_hostname }} — homelab
       Gerido por Ansible a partir de github.com/sergiotravassos/homelab
       Alteracoes a mao sao revertidas no proximo 'make configure'.
-

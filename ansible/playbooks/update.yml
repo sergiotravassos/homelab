@@ -40,7 +40,9 @@
   serial: 1
 
   tasks:
-    - name: Actualizar pacotes
+    # noqa: package-latest — este playbook existe precisamente para actualizar.
+    # Fixar versoes aqui tornaria o alvo 'make update' inutil.
+    - name: Actualizar pacotes  # noqa: package-latest
       ansible.builtin.package:
         name: "*"
         state: latest

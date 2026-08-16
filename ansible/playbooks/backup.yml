@@ -12,11 +12,17 @@
         update_cache: true
       tags: [pbs]
 
-    - name: Tarefas de vzdump
+    - name: Politica de retencao em vigor
       ansible.builtin.debug:
         msg: >-
-          {{ item.comment }} — vmid {{ item.vmid }} as {{ item.schedule }},
-          retencao {{ backup_retention.keep_daily }}/{{ backup_retention.keep_weekly }}/{{ backup_retention.keep_monthly }}
+          diarios {{ backup_retention.keep_daily }},
+          semanais {{ backup_retention.keep_weekly }},
+          mensais {{ backup_retention.keep_monthly }}
+      tags: [vzdump]
+
+    - name: Tarefas de vzdump
+      ansible.builtin.debug:
+        msg: "{{ item.comment }} - vmid {{ item.vmid }} as {{ item.schedule }}"
       loop: "{{ backup_jobs }}"
       loop_control:
         label: "{{ item.vmid }}"

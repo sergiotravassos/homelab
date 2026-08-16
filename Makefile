@@ -48,7 +48,7 @@ verify-host: ## Verifica IOMMU, vfio, ZFS e rede no host
 .PHONY: configure-host
 configure-host: ## Aplica a configuracao Ansible ao proprio Proxmox
 	$(call check_tool,ansible-playbook)
-	@ansible-playbook -i $(ANSIBLE_DIR)/inventories/lab $(ANSIBLE_DIR)/playbooks/proxmox-host.yml
+	@cd $(ANSIBLE_DIR) && ansible-playbook playbooks/proxmox-host.yml
 
 ##@ Imagens e templates
 
@@ -91,15 +91,15 @@ destroy: ## Destroi os guests geridos (pede confirmacao)
 .PHONY: configure
 configure: ## Configura todos os guests
 	$(call check_tool,ansible-playbook)
-	@ansible-playbook -i $(ANSIBLE_DIR)/inventories/lab $(ANSIBLE_DIR)/playbooks/site.yml
+	@cd $(ANSIBLE_DIR) && ansible-playbook playbooks/site.yml
 
 .PHONY: configure-check
 configure-check: ## Ansible em modo dry-run
-	@ansible-playbook -i $(ANSIBLE_DIR)/inventories/lab $(ANSIBLE_DIR)/playbooks/site.yml --check --diff
+	@cd $(ANSIBLE_DIR) && ansible-playbook playbooks/site.yml --check --diff
 
 .PHONY: galaxy
 galaxy: ## Instala as coleccoes e papeis externos
-	@ansible-galaxy install -r $(ANSIBLE_DIR)/requirements.yml
+	@cd $(ANSIBLE_DIR) && ansible-galaxy install -r requirements.yml
 
 ##@ Perfis de memoria (ver docs/capacity.md)
 
@@ -159,7 +159,7 @@ gitops-bootstrap: ## Instala o OpenShift GitOps e semeia o app-of-apps
 
 .PHONY: pbs-deploy
 pbs-deploy: ## Cria e configura o Proxmox Backup Server
-	@ansible-playbook -i $(ANSIBLE_DIR)/inventories/lab $(ANSIBLE_DIR)/playbooks/backup.yml
+	@cd $(ANSIBLE_DIR) && ansible-playbook playbooks/backup.yml
 
 .PHONY: backup-verify
 backup-verify: ## Verifica que os backups correram e sao legiveis
@@ -172,7 +172,7 @@ lint: fmt ## Corre todos os linters
 	@cd $(TOFU_DIR) && tofu validate
 	@tflint --recursive --chdir=tofu
 	@yamllint -c .yamllint .
-	@ansible-lint $(ANSIBLE_DIR)/
+	@cd $(ANSIBLE_DIR) && ansible-lint .
 	@shellcheck bootstrap/proxmox/*.sh scripts/*.sh
 
 .PHONY: secrets-scan
@@ -187,7 +187,7 @@ hooks: ## Instala os hooks de pre-commit
 
 .PHONY: update
 update: ## Actualiza o host e as imagens (sempre por PR)
-	@ansible-playbook -i $(ANSIBLE_DIR)/inventories/lab $(ANSIBLE_DIR)/playbooks/update.yml
+	@cd $(ANSIBLE_DIR) && ansible-playbook playbooks/update.yml
 
 .PHONY: docs
 docs: ## Regenera a documentacao dos modulos OpenTofu

@@ -61,7 +61,7 @@ jobs:
           tflint --recursive --chdir=tofu
 
       - name: trivy — configuracao
-        uses: aquasecurity/trivy-action@0.31.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: config
           scan-ref: tofu/
@@ -81,13 +81,18 @@ jobs:
       - name: instalar
         run: pip install ansible-core ansible-lint yamllint
 
+      - name: coleccoes
+        # sem elas o ansible-lint nao resolve community.general.* e falha
+        # o syntax-check em vez de avaliar o conteudo
+        working-directory: ansible
+        run: ansible-galaxy install -r requirements.yml
+
       - name: yamllint
         run: yamllint -c .yamllint .
 
       - name: ansible-lint
-        run: ansible-lint ansible/
-        env:
-          ANSIBLE_CONFIG: ansible/ansible.cfg
+        working-directory: ansible
+        run: ansible-lint .
 
   shell:
     name: shell
@@ -108,7 +113,8 @@ jobs:
 
       - name: kustomize build
         run: |
-          curl -sSL "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          repo=kubernetes-sigs/kustomize
+          curl -sSL "https://raw.githubusercontent.com/${repo}/master/hack/install_kustomize.sh" | bash
           for d in $(find openshift/gitops -name kustomization.yaml -printf '%h\n'); do
             echo "--> $d"
             ./kustomize build "$d" > /dev/null

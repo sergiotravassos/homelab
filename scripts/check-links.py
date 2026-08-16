@@ -17,6 +17,18 @@ IMG = re.compile(r'<img[^>]+src="([^"]+)"')
 
 SKIP_SCHEMES = {"http", "https", "mailto", "tel"}
 
+# Directorios que nao sao nossos: providers descarregados, coleccoes do Galaxy,
+# pasta de trabalho do instalador. A documentacao que trazem nao e para validar.
+SKIP_DIRS = {
+    ".git",
+    ".terraform",
+    "collections",
+    "node_modules",
+    "work",
+    ".direnv",
+    ".venv",
+}
+
 
 def targets(text: str):
     yield from LINK.findall(text)
@@ -28,7 +40,7 @@ def main() -> int:
     checked = 0
 
     for md in sorted(ROOT.rglob("*.md")):
-        if ".git" in md.parts:
+        if SKIP_DIRS & set(md.parts):
             continue
         text = md.read_text(encoding="utf-8")
 

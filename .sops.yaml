@@ -1,3 +1,4 @@
+---
 # Que caminhos sao cifrados e com que chave.
 # A chave privada vive em ~/.config/sops/age/keys.txt e NUNCA entra em Git.
 #
