@@ -20,7 +20,7 @@ permissions:
   contents: read
   packages: write
 
-# Duas construcoes em paralelo esgotam o disco do runner. Uma de cada vez.
+# Evita empilhar execucoes quando ha varios pushes seguidos.
 concurrency:
   group: bootc-${{ github.ref }}
   cancel-in-progress: true
@@ -28,11 +28,11 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Medido: devbox ~6 min, bazzite ~33 min. O limite existe para falhar em
+    # vez de arrastar, nao porque se espere chegar la.
     timeout-minutes: 90
     strategy:
       fail-fast: false
-      # sequencial de proposito: as duas imagens juntas nao cabem no disco
-      max-parallel: 1
       matrix:
         image:
           - name: homelab-devbox
@@ -44,10 +44,11 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: libertar espaco
-        # A imagem base do Bazzite ronda os 20 GB descomprimida e o runner
-        # alojado traz ~14 GB livres. Sem esta limpeza, o build morre a meio
-        # com "no space left on device" — que e o modo de falha mais comum
-        # de quem constroi imagens bootc no GitHub Actions.
+        # O runner alojado traz 145 GB de raiz, dos quais ~114 GB ficam livres
+        # depois desta limpeza — folga de sobra para a imagem base do Bazzite.
+        # Fica na mesma porque custa cerca de um minuto e o "no space left on
+        # device" e o modo de falha classico de quem constroi imagens bootc,
+        # em runners mais pequenos ou auto-alojados.
         run: |
           sudo rm -rf \
             /usr/share/dotnet \
