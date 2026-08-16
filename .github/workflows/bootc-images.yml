@@ -43,7 +43,7 @@ jobs:
 
       - name: construir
         id: build
-        uses: redhat-actions/buildah-build@v2
+        uses: redhat-actions/buildah-build@v3
         with:
           image: ${{ matrix.image.name }}
           tags: latest ${{ github.sha }}
