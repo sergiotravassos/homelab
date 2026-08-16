@@ -1,0 +1,18 @@
+---
+# As coleccoes do Galaxy sao instaladas em collections/ (primeiro caminho de
+# collections_path no ansible.cfg). Sem esta exclusao, o ansible-lint analisa a
+# community.general inteira — 5000+ ficheiros de codigo que nao e nosso — e
+# falha com milhares de violacoes alheias.
+exclude_paths:
+  - collections/
+  - .ansible/
+
+# O perfil que este repositorio se compromete a cumprir. Baixar daqui exige
+# justificacao em PR.
+profile: production
+
+kinds:
+  - playbook: "playbooks/*.yml"
+  - tasks: "roles/*/tasks/*.yml"
+  - handlers: "roles/*/handlers/*.yml"
+  - vars: "inventories/*/group_vars/*.yml"
