@@ -25,3 +25,30 @@ sudo bootc rollback
 
 O `bootc rollback` e a razao pela qual isto vale o incomodo: um arranque anterior
 fica sempre disponivel, e voltar atras demora o tempo de um reboot.
+
+## Construir no GitHub Actions — e o seu limite
+
+O `devbox` deriva de `fedora-bootc` e constroi sem problemas num runner alojado.
+
+A `bazzite` e outra historia: a imagem base ronda os 20 GB descomprimida e o
+runner alojado traz cerca de 14 GB livres. O workflow liberta o que pode antes
+de comecar, corre as duas imagens em serie e tem um limite de 90 minutos — mas
+esta e uma construcao no limite do que um runner gratuito aguenta.
+
+Se falhar por espaco ou por tempo, as saidas, por ordem de preferencia:
+
+1. **Construir na `devbox`** e empurrar para o `ghcr.io` a partir dali. E a VM
+   com 8 vCPU, 16 GB e disco a serio — e o sitio natural para isto.
+   ```bash
+   podman build -t ghcr.io/sergiotravassos/homelab-bazzite:latest bootc/bazzite
+   podman push ghcr.io/sergiotravassos/homelab-bazzite:latest
+   ```
+2. **Usar o Bazzite oficial sem camada propria.** A imagem `ghcr.io/ublue-os/bazzite`
+   ja traz tudo menos o `qemu-guest-agent`, que se pode instalar com
+   `rpm-ostree install` na propria VM. Perde-se o "tudo em codigo" nesse ponto —
+   e ficaria registado como tal.
+3. **Runner com mais disco.** Resolve, custa dinheiro, e este lab nao tem
+   orcamento de CI.
+
+A opcao 1 e a que o roadmap assume. O CI serve de verificacao de que o
+`Containerfile` continua valido, nao como unico caminho de construcao.

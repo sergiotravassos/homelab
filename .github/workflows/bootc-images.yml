@@ -20,11 +20,19 @@ permissions:
   contents: read
   packages: write
 
+# Duas construcoes em paralelo esgotam o disco do runner. Uma de cada vez.
+concurrency:
+  group: bootc-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     strategy:
       fail-fast: false
+      # sequencial de proposito: as duas imagens juntas nao cabem no disco
+      max-parallel: 1
       matrix:
         image:
           - name: homelab-devbox
@@ -36,9 +44,22 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: libertar espaco
-        # as imagens bootc sao grandes; o runner por omissao nao chega
+        # A imagem base do Bazzite ronda os 20 GB descomprimida e o runner
+        # alojado traz ~14 GB livres. Sem esta limpeza, o build morre a meio
+        # com "no space left on device" — que e o modo de falha mais comum
+        # de quem constroi imagens bootc no GitHub Actions.
         run: |
-          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android
+          sudo rm -rf \
+            /usr/share/dotnet \
+            /usr/share/swift \
+            /usr/local/lib/android \
+            /usr/local/share/boost \
+            /usr/local/.ghcup \
+            /opt/ghc \
+            /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force || true
+          sudo apt-get clean
+          echo "espaco disponivel:"
           df -h /
 
       - name: construir
