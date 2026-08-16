@@ -23,7 +23,7 @@ jobs:
     name: segredos
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0   # o gitleaks precisa do historico completo
 
@@ -36,9 +36,9 @@ jobs:
     name: opentofu
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: opentofu/setup-opentofu@v1
+      - uses: opentofu/setup-opentofu@v2
         with:
           tofu_version: 1.10.6
 
@@ -51,7 +51,7 @@ jobs:
           tofu init -backend=false -input=false
           tofu validate
 
-      - uses: terraform-linters/setup-tflint@v4
+      - uses: terraform-linters/setup-tflint@v6
         with:
           tflint_version: v0.58.1
 
@@ -72,7 +72,7 @@ jobs:
     name: ansible
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v5
         with:
@@ -98,7 +98,7 @@ jobs:
     name: shell
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: shellcheck
         run: |
@@ -109,7 +109,7 @@ jobs:
     name: manifestos
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: kustomize build
         run: |
@@ -124,7 +124,7 @@ jobs:
     name: diagramas
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: SVG bem formados
         run: |

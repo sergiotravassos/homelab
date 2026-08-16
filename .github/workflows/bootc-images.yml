@@ -33,7 +33,7 @@ jobs:
             context: bootc/bazzite
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: libertar espaco
         # as imagens bootc sao grandes; o runner por omissao nao chega
@@ -43,7 +43,7 @@ jobs:
 
       - name: construir
         id: build
-        uses: redhat-actions/buildah-build@v2
+        uses: redhat-actions/buildah-build@v3
         with:
           image: ${{ matrix.image.name }}
           tags: latest ${{ github.sha }}
@@ -52,7 +52,7 @@ jobs:
           oci: true
 
       - name: publicar
-        uses: redhat-actions/push-to-registry@v2
+        uses: redhat-actions/push-to-registry@v3
         with:
           image: ${{ steps.build.outputs.image }}
           tags: ${{ steps.build.outputs.tags }}
