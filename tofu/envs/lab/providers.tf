@@ -1,9 +1,13 @@
-# Autenticacao vem do ambiente, carregada pelo direnv a partir do .envrc:
-#   PROXMOX_VE_ENDPOINT
-#   PROXMOX_VE_API_TOKEN   (lido do Keychain do macOS, nunca de um ficheiro)
-#   PROXMOX_VE_INSECURE
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Diz ao OpenTofu como falar com o Proxmox.
+#  PORQUE EXISTE  Um provider é o adaptador que traduz este HCL em chamadas HTTP à API do
+#                 Proxmox. Sem ele o OpenTofu não sabe o que é uma VM.
+#  SE TIRARES     Nada consegue ser criado — não há ligação a lado nenhum.
+#  ONDE APRENDER  docs/percurso.md — etapa 2
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# Ver .envrc.example e docs/adr/0007-segredos-sops-age.md
+#  Repara no que NÃO está aqui: o token. Vem do ambiente (.envrc → Keychain do
+#  macOS). Um segredo neste ficheiro seria um segredo num repositório público.
 
 provider "proxmox" {
   # certificado auto-assinado do lab; nao ha CA interna a emiti-lo

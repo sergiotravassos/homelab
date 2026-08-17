@@ -1,5 +1,15 @@
-# Home Assistant OS. Appliance fechada: imagem qcow2 oficial, sem cloud-init.
-# E o unico guest de que a casa depende — daqui o "sempre ligado".
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Declara a VM do Home Assistant OS.
+#  PORQUE EXISTE  É o guest de que a casa depende — daí ser dos dois que arrancam com o host.
+#  SE TIRARES     A automação da casa deixa de existir. É o guest com consequência real.
+#  ONDE APRENDER  docs/percurso.md — etapa 2. Lê este primeiro: é o guest mais simples do repo.
+# ──────────────────────────────────────────────────────────────────────────────
+#
+#  Porque é que o cloud-init está desligado: o Home Assistant OS é uma appliance
+#  fechada, distribuída como imagem pronta. Não há utilizador para criar nem
+#  chave SSH para injectar — configura-se pela interface dele.
+#
+#  Nota importante no fim do ficheiro sobre um passo manual de importação.
 
 module "haos" {
   source = "../../modules/proxmox-vm"

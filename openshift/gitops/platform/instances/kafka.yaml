@@ -1,9 +1,17 @@
 ---
-# Cluster Kafka de um broker, modo KRaft, sem ZooKeeper.
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Declara o cluster Kafka e os tópicos, através do operador Strimzi.
+#  PORQUE EXISTE  Mostra o modelo de operador na prática: descreves um Kafka em YAML e o
+#                 operador cria os pods, os discos e a configuração por ti.
+#  SE TIRARES     Não há Kafka no cluster. Os LXC de plataforma continuam a servir.
+#  ONDE APRENDER  docs/percurso.md — etapa 8
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# Replica 1 e uma escolha consciente: para praticar operacao, rebalanceamento e
-# falha de consumidor chega. Nao substitui um cluster de tres nos, e o repo
-# assume-o em vez de fingir. Ver docs/diagrams/06-platform.svg
+#  Repara em `replicas: 1` e nos factores de replicação a 1. Num nó só não há
+#  para onde replicar. Está assumido em vez de disfarçado — é honesto, e não
+#  substitui um cluster de três nós.
+#
+#  KRaft: modo sem ZooKeeper. É o presente do Kafka; o ZooKeeper foi removido.
 
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaNodePool

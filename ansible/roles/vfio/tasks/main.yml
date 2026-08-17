@@ -1,8 +1,19 @@
 ---
-# Liga os dispositivos declarados ao vfio-pci.
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Liga a GPU ao driver vfio-pci, para poder ser entregue a uma VM.
+#  PORQUE EXISTE  O host reclama a placa no arranque se ninguém a tirar primeiro. Este papel
+#                 é o que a tira.
+#  SE TIRARES     A bazzite arranca com ecrã preto e sem pista nenhuma do motivo.
+#  ONDE APRENDER  docs/percurso.md — etapa 5
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# Nao inventa IDs: se vfio_device_ids estiver vazio, nao escreve nada.
-# Os IDs sao apurados no metal — ver docs/gpu-passthrough.md
+#  O papel mais interessante do repo para aprender Ansible, por duas razões:
+#
+#  1. VERIFICA antes de mexer. Confirma que o IOMMU está activo e falha se não
+#     estiver, em vez de escrever configuração que não vai funcionar.
+#
+#  2. NÃO INVENTA valores. Se vfio_device_ids estiver vazio, não escreve nada e
+#     diz-te como apurar os IDs. Um endereço PCI errado aqui é um dia perdido.
 
 - name: Sem dispositivos declarados — nada a fazer
   ansible.builtin.debug:

@@ -1,6 +1,14 @@
 ---
-# Ponto de entrada. Corre tudo, pela ordem certa.
-#   make configure
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      O ponto de entrada: importa os outros playbooks pela ordem certa.
+#  PORQUE EXISTE  Dá um único comando que configura o lab todo, em vez de te obrigar a
+#                 lembrar da sequência.
+#  SE TIRARES     Passas a ter de correr cada playbook à mão, na ordem certa, de memória.
+#  ONDE APRENDER  docs/percurso.md — etapa 3
+# ──────────────────────────────────────────────────────────────────────────────
+#
+#  A ordem não é decorativa: o host tem de estar configurado antes dos guests,
+#  e a plataforma antes de a devbox tentar falar com ela.
 
 - name: Host Proxmox
   ansible.builtin.import_playbook: proxmox-host.yml

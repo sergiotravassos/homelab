@@ -1,5 +1,16 @@
-# Plano de enderecamento e de VMID, num sitio so.
-# A tabela equivalente, em prosa, esta em docs/network.md.
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Guarda o plano de endereçamento e o interruptor flat/vlan num sítio só.
+#  PORQUE EXISTE  Se cada guest declarasse o seu IP, mudar de fase de rede seria editar oito
+#                 ficheiros. Aqui é mudar uma variável.
+#  SE TIRARES     Cada ficheiro de guest passaria a repetir IPs e etiquetas à mão.
+#  ONDE APRENDER  docs/percurso.md — etapa 2, e a etapa 4 para a parte das VLANs
+# ──────────────────────────────────────────────────────────────────────────────
+#
+#  `locals` são valores calculados, não entradas. A diferença face a `variable`:
+#  uma variável vem de fora, um local é derivado aqui dentro.
+#
+#  O padrão `condição ? A : B` aparece três vezes. Lê-se: em modo vlan usa o
+#  mapa A (etiquetas e IPs fixos), senão usa B (tudo null e dhcp).
 
 locals {
   vlan = var.network_mode == "vlan" ? {

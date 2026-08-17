@@ -1,7 +1,17 @@
-# Bancada de desenvolvimento. Fedora Silverblue a partir do template Packer,
-# depois rebase para a imagem bootc propria (ver bootc/devbox/).
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Declara a VM de desenvolvimento — onde o código compila.
+#  PORQUE EXISTE  O teu Mac é ARM e o cluster é x86_64. Uma imagem nativa do GraalVM
+#                 compilada no Mac não arranca no OpenShift. Esta VM é x86_64.
+#  SE TIRARES     Perdes o sítio onde compilar para a arquitectura certa. Podes viver sem
+#                 ela até à fase 3 do roadmap.
+#  ONDE APRENDER  docs/percurso.md — etapa 9, e a nota honesta sobre o Fedora Silverblue
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# E aqui que o codigo compila — nao no MacBook. Ver docs/workflow.md
+#  `memory_floating_mb = 8192` liga o ballooning entre 8 e 16 GB: uma IDE remota
+#  parada não precisa de 16 GB, um build native-image precisa. É o único guest
+#  do lab onde o ballooning faz sentido.
+#
+#  `clone_vm_id` faz nascer esta VM de um template Packer em vez de uma ISO.
 
 module "devbox" {
   source = "../../modules/proxmox-vm"

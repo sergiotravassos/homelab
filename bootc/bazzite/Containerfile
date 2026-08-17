@@ -1,10 +1,17 @@
-# Consola da sala — imagem derivada do Bazzite.
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Acrescenta ao Bazzite o pouco que este lab precisa e ele não traz.
+#  PORQUE EXISTE  O Bazzite já é uma distribuição de jogos completa. Só falta o
+#                 qemu-guest-agent, sem o qual o Proxmox não desliga a VM com jeito.
+#  SE TIRARES     A VM não responde a shutdown, e os perfis de memória passam a cortar-lhe
+#                 a corrente em vez de a desligar.
+#  ONDE APRENDER  docs/percurso.md — etapa 9
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# O Bazzite ja traz o essencial para jogar. Esta camada acrescenta apenas o que
-# e especifico deste lab: streaming interno, monitorizacao e afinacoes de VM.
+#  O Bazzite é atómico por natureza, não por escolha minha — é assim que o
+#  projecto o distribui. Aqui não havia alternativa mais simples.
 #
-# Publicada em ghcr.io e adoptada com:
-#   bootc switch ghcr.io/sergiotravassos/homelab-bazzite:latest
+#  `ostree container commit` no fim de cada camada: obrigatório em imagens
+#  rpm-ostree, senão a camada não fica consolidada.
 
 FROM ghcr.io/ublue-os/bazzite:latest
 

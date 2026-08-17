@@ -1,3 +1,16 @@
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Declara todas as entradas configuráveis deste laboratório.
+#  PORQUE EXISTE  Separa o que muda (valores desta máquina) do que não muda (a estrutura).
+#                 É também documentação: cada variável diz para que serve.
+#  SE TIRARES     Os valores ficariam espalhados por dez ficheiros e não haveria um sítio
+#                 onde ver o que é configurável.
+#  ONDE APRENDER  docs/percurso.md — etapa 2
+# ──────────────────────────────────────────────────────────────────────────────
+#
+#  Os valores reais vivem em terraform.tfvars, que está no .gitignore. O
+#  ficheiro .example mostra a forma. As três variáveis marcadas APURAR NO METAL
+#  não podem ser adivinhadas — dependem desta máquina em concreto.
+
 variable "node_name" {
   description = "Nome do no Proxmox."
   type        = string

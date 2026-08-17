@@ -1,5 +1,20 @@
 ---
-# O unico Application aplicado a mao. A partir daqui, o cluster le o repositorio.
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      O único Application que aplicas à mão. Aponta o Argo CD a este repositório.
+#  PORQUE EXISTE  É a semente. A partir daqui o cluster puxa tudo o resto do Git, sozinho,
+#                 sem ninguém correr comandos.
+#  SE TIRARES     O Argo CD fica instalado e sem saber o que gerir. Nada se sincroniza.
+#  ONDE APRENDER  docs/percurso.md — etapa 7
+# ──────────────────────────────────────────────────────────────────────────────
+#
+#  O padrão chama-se app-of-apps: um Application que aponta para uma pasta cheia
+#  de outros Application. Aplicas um, ganhas dezenas.
+#
+#  As três linhas que definem o comportamento:
+#    prune: true     apaga do cluster o que foi removido do Git
+#    selfHeal: true  desfaz alterações feitas à mão no cluster
+#    automated       não esperas por aprovação, sincroniza sozinho
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

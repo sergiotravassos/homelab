@@ -1,7 +1,17 @@
-# Steam Machine. Recebe a GPU inteira, o controlador USB traseiro e o Bluetooth.
-# Procedimento e riscos: docs/gpu-passthrough.md · decisao: docs/adr/0004-passthrough-da-gpu.md
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Declara a VM da Steam Machine, com a GPU em passthrough.
+#  PORQUE EXISTE  É o guest que justifica metade das escolhas de hardware: a GPU dedicada,
+#                 o pinning no CCD com V-Cache, as hugepages.
+#  SE TIRARES     Ficas sem consola na sala. A GPU fica sem uso — não há outra carga a
+#                 usá-la.
+#  ONDE APRENDER  docs/percurso.md — etapa 5. É o ficheiro mais complexo do repo; deixa-o para depois do haos.tf.
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# Unico guest fixado no CCD 0 — os cores com 3D V-Cache.
+#  Único guest fixado no CCD 0 — os oito cores com 64 MB de cache empilhada.
+#
+#  `gpu_pci_id == null ? [] : [...]` significa: sem endereço PCI apurado, não
+#  passa GPU nenhuma. É deliberado — deixa arrancar a VM sem GPU para
+#  diagnosticar, em vez de falhar com um valor inventado.
 
 module "bazzite" {
   source = "../../modules/proxmox-vm"

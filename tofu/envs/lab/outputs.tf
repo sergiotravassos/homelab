@@ -1,3 +1,11 @@
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Publica valores calculados depois do apply — VMIDs, IPs, RAM comprometida.
+#  PORQUE EXISTE  Serve para verificares o resultado sem ir à interface web, e para o
+#                 `memory_committed_gb` te avisar se somaste guests acima do que cabe.
+#  SE TIRARES     Nada se parte. Perdes a forma rápida de confirmar o que foi criado.
+#  ONDE APRENDER  docs/percurso.md — etapa 2
+# ──────────────────────────────────────────────────────────────────────────────
+
 output "guests" {
   description = "Mapa de todos os guests geridos: VMID e endereco."
   value = {

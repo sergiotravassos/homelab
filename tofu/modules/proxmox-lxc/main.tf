@@ -1,8 +1,16 @@
-# Um contentor LXC no Proxmox.
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Cria um contentor LXC no Proxmox. Usado pelos três serviços de plataforma.
+#  PORQUE EXISTE  Um contentor partilha o kernel do host: custa quase nada em RAM. Três VMs
+#                 para Kafka, PostgreSQL e registry gastariam ~6 GB só em kernels.
+#  SE TIRARES     Kafka, PostgreSQL e registry não têm onde nascer.
+#  ONDE APRENDER  docs/percurso.md — etapa 0 para VM contra contentor, etapa 2 para a sintaxe
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# Usado para os servicos de plataforma com estado — Kafka, PostgreSQL, registry.
-# Uma VM inteira para cada um custaria memoria que este lab nao tem
-# (ver docs/capacity.md).
+#  Diferenças face ao módulo proxmox-vm, e valem a pena perceber:
+#    · não há BIOS nem firmware — não há máquina a emular
+#    · `unprivileged = true` é o normal: root no contentor não é root no host
+#    · `features.nesting` é preciso para correr Podman lá dentro
+#    · o sistema vem de um template .tar.zst, não de uma ISO
 
 resource "proxmox_virtual_environment_container" "this" {
   vm_id        = var.vm_id

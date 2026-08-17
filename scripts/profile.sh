@@ -1,9 +1,22 @@
 #!/usr/bin/env bash
-# Liga e desliga conjuntos de guests conforme o perfil de memoria escolhido.
-# Ver docs/capacity.md e docs/adr/0008-perfis-de-memoria.md
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Liga e desliga conjuntos de guests conforme o perfil de memória escolhido.
+#  PORQUE EXISTE  A soma dos guests pede 80 GB e a máquina tem 64. Este script é o mecanismo
+#                 que impede o lab de entrar em falta de memória.
+#  SE TIRARES     Ligas tudo, a máquina fica sem RAM, e o oom-killer escolhe por ti — e
+#                 escolhe sempre mal.
+#  ONDE APRENDER  docs/percurso.md — etapa 2 para o contexto, docs/capacity.md para as contas
+# ──────────────────────────────────────────────────────────────────────────────
 #
-#   scripts/profile.sh status
-#   scripts/profile.sh apply dev
+#  Duas decisões dentro deste script que valem a pena:
+#
+#  1. PÁRA antes de arrancar. Liberta memória primeiro, senão o guest novo pede
+#     RAM que ainda está presa no antigo.
+#
+#  2. Arranca por ordem de VMID. Não é arbitrário: o ocp-sno (120) sobe antes da
+#     devbox (130) porque não tolera ballooning e falha pior se não conseguir
+#     a memória que pediu. Quem chega primeiro é servido.
+
 set -euo pipefail
 
 PVE_HOST="${PVE_HOST:-10.10.10.10}"

@@ -1,9 +1,15 @@
-# Servicos de plataforma com estado, fora do cluster.
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Declara os três contentores de plataforma: Kafka, PostgreSQL e registry.
+#  PORQUE EXISTE  Servem o devbox quando o OpenShift está desligado — que é a maior parte
+#                 do tempo. E ensinam a operar os serviços fora de um operador.
+#  SE TIRARES     Só podes testar contra Kafka e PostgreSQL com o cluster ligado, ou seja
+#                 com 24 GB comprometidos em vez de 12.
+#  ONDE APRENDER  docs/percurso.md — etapa 0 para VM contra contentor, etapa 8 para os serviços
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# Em LXC e nao em VM por uma razao concreta: tres VMs custariam ~6 GB so em
-# kernels e sistemas de ficheiros. Ver docs/capacity.md
-#
-# Servem o devbox quando o OpenShift esta desligado — que e a maior parte do tempo.
+#  Estão fora do cluster de propósito, e é uma decisão de arquitectura, não
+#  uma poupança: em produção não se corre a base de dados no mesmo sítio que
+#  a aplicação. O lab repete o padrão à escala dele.
 
 module "kafka" {
   source = "../../modules/proxmox-lxc"

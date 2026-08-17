@@ -33,6 +33,7 @@ rollback de GitOps às três da manhã — sem que ninguém a sério esteja a pa
 | [Arranque](#arranque) | Como se põe isto de pé do zero |
 | [Convenções](#convenções) | Segredos, decisões, nomes |
 | [Estado](#estado) | O que já funciona e o que ainda não |
+| [Percurso de estudo](docs/percurso.md) | Em que ordem aprender isto, e o que saber antes de avançar |
 
 ---
 
@@ -263,6 +264,10 @@ Depois, por ordem:
 cifrados com [SOPS](https://github.com/getsops/sops) e [age](https://github.com/FiloSottile/age); a
 chave privada nunca entra em Git. O `gitleaks` corre em cada PR e falha o build. Os ficheiros
 `*.example` mostram a forma, nunca o conteúdo.
+
+**Cartões de leitura.** Cada ficheiro importante abre com um cartão que diz o que faz, porque
+existe, o que acontece se o tirares, e para que etapa do
+**[percurso de estudo](docs/percurso.md)** aponta. O repositório é para ser lido, não só corrido.
 
 **Decisões.** Escolhas com consequências vivem em [`docs/adr/`](docs/adr/) no formato ADR — contexto,
 opções consideradas, decisão, e o que se perde com ela. É a parte do repositório que ainda vale

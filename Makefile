@@ -1,8 +1,17 @@
-# homelab — ponto de entrada unico.
-#   make help
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      O painel de comandos do laboratório. Corre `make help` para ver tudo.
+#  PORQUE EXISTE  Dá um nome curto a cada operação e garante que corre sempre da mesma
+#                 maneira — em vez de dependeres de te lembrares dos argumentos.
+#  SE TIRARES     Passas a decorar comandos longos de tofu, ansible e ssh.
+#  ONDE APRENDER  docs/percurso.md — etapa 1 em diante. É por aqui que entras em tudo.
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# Nenhum alvo assume que os anteriores correram na mesma sessao.
-# Todos os alvos sao idempotentes: correr duas vezes nao faz nada na segunda.
+#  Se nunca usaste um Makefile: cada "alvo" é um nome seguido de comandos. O
+#  `make plan` corre o que está sob `plan:`. O texto depois de `##` é o que
+#  aparece no `make help`.
+#
+#  ATENÇÃO: as linhas de comando de um Makefile começam com TAB, não espaços.
+#  É a única linguagem do repo onde isso importa, e um espaço parte tudo.
 
 SHELL       := /usr/bin/env bash
 .SHELLFLAGS := -eu -o pipefail -c

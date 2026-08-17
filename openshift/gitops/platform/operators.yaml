@@ -1,5 +1,20 @@
 ---
-# Operadores da plataforma. Wave -1: os CRD tem de existir antes das instancias.
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Divide a plataforma em duas ondas: primeiro os operadores, depois o que criam.
+#  PORQUE EXISTE  Um operador instala CRDs — tipos novos de recurso. Um Kafka não pode ser
+#                 criado antes de o CRD Kafka existir.
+#  SE TIRARES     O primeiro sync falha sempre que o cluster é reconstruído, porque tenta
+#                 criar um Kafka antes de o Strimzi existir.
+#  ONDE APRENDER  docs/percurso.md — etapa 7
+# ──────────────────────────────────────────────────────────────────────────────
+#
+#  `argocd.argoproj.io/sync-wave` é a anotação que ordena. Menor primeiro:
+#    -1  operadores (instalam os CRDs)
+#     0  instâncias (usam os CRDs)
+#     1  observabilidade
+#     2  aplicações
+#
+#  O Argo CD só passa à onda seguinte quando a anterior está saudável.
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application

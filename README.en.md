@@ -37,6 +37,7 @@ three in the morning — without anyone real paying for it.
 | [Getting started](#getting-started) | How to stand this up from nothing |
 | [Conventions](#conventions) | Secrets, decisions, names |
 | [Status](#status) | What works and what doesn't yet |
+| [Study path](docs/percurso.md) | The order to learn this in, and what to know before advancing (Portuguese) |
 
 ---
 
@@ -267,6 +268,11 @@ Then, in order:
 encrypted with [SOPS](https://github.com/getsops/sops) and [age](https://github.com/FiloSottile/age);
 the private key never enters Git. `gitleaks` runs on every PR and fails the build. The `*.example`
 files show the shape, never the content.
+
+**Reading cards.** Every significant file opens with a card stating what it does, why it exists,
+what breaks if you remove it, and which stage of the
+**[study path](docs/percurso.md)** covers the concept. The repository is meant to be read, not just
+run. Those cards are in Portuguese.
 
 **Decisions.** Choices with consequences live in [`docs/adr/`](docs/adr/) in ADR format — context,
 options considered, decision, and what it costs. It's the part of the repository that will still be

@@ -1,11 +1,18 @@
 ---
-# Que caminhos sao cifrados e com que chave.
-# A chave privada vive em ~/.config/sops/age/keys.txt e NUNCA entra em Git.
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Diz que ficheiros são cifrados e com que chave.
+#  PORQUE EXISTE  O repositório é público. Sem cifra, qualquer segredo aqui é comprometido
+#                 em minutos por robôs automáticos. Não é hipótese, é certeza.
+#  SE TIRARES     Nada é cifrado automaticamente e depende de te lembrares. Não vai acontecer.
+#  ONDE APRENDER  docs/percurso.md — etapa 9
+# ──────────────────────────────────────────────────────────────────────────────
 #
-#   age-keygen -o ~/.config/sops/age/keys.txt
-#   sops -e -i <ficheiro>
+#  O SOPS cifra VALOR a VALOR, não o ficheiro inteiro. Consequência prática:
+#  continuas a ver num `git diff` que uma chave mudou, sem ver o conteúdo.
 #
-# Substituir pela chave publica real antes do primeiro uso.
+#  A chave privada vive em ~/.config/sops/age/keys.txt e NUNCA entra no Git.
+#  Perdê-la significa perder todos os segredos cifrados. Faz cópia offline.
+
 creation_rules:
   - path_regex: \.sops\.(yaml|yml|json|env)$
     age: &lab_key "age1PREENCHER_COM_A_CHAVE_PUBLICA_REAL"

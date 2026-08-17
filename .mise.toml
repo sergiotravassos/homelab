@@ -1,5 +1,14 @@
-# Toolchain do posto de trabalho. Uma versao, a mesma no Mac e no CI.
-#   mise install
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Fixa a versão de cada ferramenta do posto de trabalho.
+#  PORQUE EXISTE  Sem isto, a tua máquina e o CI usam versões diferentes e um erro aparece
+#                 num sítio e não no outro. `mise install` instala tudo de uma vez.
+#  SE TIRARES     Instalas tudo à mão com brew, e as versões passam a divergir com o tempo.
+#  ONDE APRENDER  docs/percurso.md — etapa 2
+# ──────────────────────────────────────────────────────────────────────────────
+#
+#  O mise é um gestor de versões de ferramentas — como o nvm ou o sdkman, mas
+#  para tudo. Corre `mise install` uma vez e ficas com estas versões exactas.
+
 [tools]
 opentofu   = "1.10.6"
 terraform-docs = "0.20.0"

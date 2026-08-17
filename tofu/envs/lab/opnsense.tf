@@ -1,7 +1,16 @@
-# Router e firewall do laboratorio. Nao substitui o router de casa —
-# ver docs/adr/0005-vlans-com-switch-gerivel.md
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Declara a VM do router e firewall do laboratório.
+#  PORQUE EXISTE  É quem encaminha entre VLANs e resolve DNS do lab. Sem ele, em modo vlan,
+#                 nada se alcança e o OpenShift não instala.
+#  SE TIRARES     Não há DNS de lab nem rotas entre VLANs. O modo flat continua a funcionar.
+#  ONDE APRENDER  docs/percurso.md — etapa 4
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# Arranca primeiro: sem ele nao ha DNS de lab nem encaminhamento inter-VLAN.
+#  `vlan_id = null` aqui não significa "modo flat" — significa que esta VM está
+#  no trunk e recebe TODAS as VLANs sem etiqueta própria. É ela que as separa
+#  em sub-interfaces lá dentro. É a diferença entre uma porta trunk e uma access.
+#
+#  `startup = { order = 1 }`: arranca antes de todos os outros guests.
 
 module "opnsense" {
   source = "../../modules/proxmox-vm"

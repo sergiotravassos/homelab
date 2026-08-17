@@ -1,8 +1,17 @@
-# OpenShift Single-Node. O maior consumidor de memoria do lab.
-# Decisao e alternativas: docs/adr/0003-openshift-sno.md
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Declara a VM do cluster OpenShift de nó único.
+#  PORQUE EXISTE  É o terreno profissional deste lab: Quarkus, Kafka, Argo CD. Também o
+#                 maior consumidor de RAM — 24 GB dos 58 disponíveis.
+#  SE TIRARES     Fica um lab de virtualização sem plataforma. Metade do objectivo.
+#  ONDE APRENDER  docs/percurso.md — etapa 6
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# Arranca de ISO gerada pelo instalador agent-based (make ocp-iso).
-# O MAC tem de coincidir com o declarado em openshift/install/agent-config.yaml.
+#  Três detalhes que não são arbitrários:
+#
+#    memory_floating_mb = 0   o OpenShift lida mal com RAM a desaparecer
+#    cloud_init_enabled = false o RHCOS usa Ignition, não cloud-init
+#    mac_address              TEM de coincidir com openshift/install/agent-config.yaml,
+#                             senão o nó arranca e nunca recebe rede
 
 module "ocp_sno" {
   source = "../../modules/proxmox-vm"

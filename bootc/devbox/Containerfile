@@ -1,7 +1,22 @@
-# Bancada de desenvolvimento — Fedora Silverblue com o toolchain Java.
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Descreve o sistema operativo da devbox como se fosse uma imagem de contentor.
+#  PORQUE EXISTE  A devbox corre Fedora Silverblue, que é imutável: não fazes dnf install no
+#                 sistema a correr. Mudas este ficheiro, reconstróis, e reinicias.
+#  SE TIRARES     A devbox fica um Fedora sem toolchain — sem JDK, sem GraalVM, sem Podman.
+#  ONDE APRENDER  docs/percurso.md — etapa 9, e a nota honesta sobre o Silverblue
+# ──────────────────────────────────────────────────────────────────────────────
 #
-# Construida por .github/workflows/bootc-images.yml e publicada em ghcr.io.
-# A VM adopta-a com:  bootc switch ghcr.io/sergiotravassos/homelab-devbox:latest
+#  ISTO É UM CONCEITO NOVO, e é o mais estranho do repositório. Lê devagar:
+#
+#  Um sistema "bootc" arranca a partir de uma imagem de contentor. O sistema de
+#  ficheiros é read-only. Instalar software não é um comando na máquina — é
+#  editar este ficheiro, deixar o CI construir a imagem, e a VM adopta-a.
+#
+#  O que se ganha: a máquina é exactamente o que este ficheiro diz, sempre. E o
+#  rollback é `bootc rollback` + reboot, porque a versão anterior fica lá.
+#
+#  O que se perde: familiaridade. Se isto te travar, um Fedora Server normal
+#  serve para tudo o que a devbox faz. Diz que eu troco.
 
 FROM quay.io/fedora/fedora-bootc:42
 

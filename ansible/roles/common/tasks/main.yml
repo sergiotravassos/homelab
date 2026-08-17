@@ -1,4 +1,18 @@
 ---
+# ─── Cartão de leitura ────────────────────────────────────────────────────────
+#  O QUE FAZ      Configuração que todos os guests Linux levam: fuso, pacotes, SSH, motd.
+#  PORQUE EXISTE  É o mínimo comum. Sem um papel partilhado, cada playbook repetiria as
+#                 mesmas seis tarefas e divergiriam com o tempo.
+#  SE TIRARES     Cada guest fica com configuração ligeiramente diferente, sem ninguém notar.
+#  ONDE APRENDER  docs/percurso.md — etapa 3
+# ──────────────────────────────────────────────────────────────────────────────
+#
+#  Um "papel" (role) é um conjunto reutilizável de tarefas com uma estrutura
+#  fixa de pastas: tasks/ para o que faz, handlers/ para o que reage.
+#
+#  Repara no `notify: Recarregar sshd` na tarefa do SSH: só recarrega o serviço
+#  se o ficheiro mudou. É idempotência — o conceito central da etapa 3.
+
 - name: Fuso horario
   community.general.timezone:
     name: "{{ timezone }}"
