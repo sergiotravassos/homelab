@@ -37,7 +37,6 @@ pve_mgmt_gateway: 10.10.10.1
 # Backup — ver docs/runbooks/03-backup-e-restauro.md
 # ---------------------------------------------------------------------------
 pbs_host: 10.10.10.11
-pbs_datastore: homelab
 backup_retention:
   keep_daily: 7
   keep_weekly: 4
@@ -48,6 +47,7 @@ backup_jobs:
   - { vmid: 100, schedule: "03:15", comment: "opnsense — regras de firewall" }
   - { vmid: 202, schedule: "03:30", comment: "registry" }
   - { vmid: 130, schedule: "sun 04:00", comment: "devbox — semanal" }
-# ocp-sno e bazzite nao sao salvaguardados de proposito: reinstalaveis.
+  - { vmid: 203, schedule: "sun 04:30", comment: "monitoring — semanal; os paineis vivem em Git" }
+# ocp-sno, bazzite e runner nao sao salvaguardados de proposito: reinstalaveis.
 
 alert_email: root

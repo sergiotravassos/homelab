@@ -16,3 +16,20 @@
           /var/lib/registry e TLS emitido pelo cert-manager do cluster.
       when: inventory_hostname == 'registry'
       tags: [registry]
+
+    - name: Prometheus e Grafana
+      ansible.builtin.debug:
+        msg: >-
+          Por implementar: Prometheus com os alvos node_exporter do host,
+          pve-exporter e o node_exporter da bazzite; Grafana com
+          allow_embedding e utilizador viewer. Ver docs/adr/0010.
+      when: inventory_hostname == 'monitoring'
+      tags: [monitoring]
+
+    - name: Runner de deploy efemero
+      ansible.builtin.debug:
+        msg: >-
+          Por implementar: GitHub Actions runner registado com --ephemeral,
+          so no repositorio privado do projecto pessoal. Ver docs/adr/0012.
+      when: inventory_hostname == 'runner'
+      tags: [runner]

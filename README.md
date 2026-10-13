@@ -122,12 +122,11 @@ Detalhe, incluindo o plano de endereçamento e as regras inter-VLAN: **[docs/net
 | `haos` | Home Assistant OS | 2 | 4 GB | 32 GB | 30 | sempre |
 | `monitoring` | LXC: Prometheus e Grafana | 2 | 1 GB | 30 GB | 20 | sempre |
 | `opnsense-lab` | OPNsense | 2 | 2 GB | 20 GB | trunk | sempre |
-| `pbs` | LXC: Proxmox Backup Server | — | 2 GB | — | 10 | sempre |
-| `runner` | LXC: runner de deploy, efémero | 2 | 2 GB | — | 20 | sob procura |
+| `pbs` | LXC: Proxmox Backup Server | 2 | 2 GB | 16 GB + disco externo | 10 | sempre |
+| `runner` | LXC: runner de deploy, efémero | 2 | 2 GB | 30 GB | 20 | `make runner-start` |
 
-Os seis primeiros estão declarados em OpenTofu. `monitoring`, `pbs` e `runner` estão decididos
-([ADR 0010](docs/adr/0010-monitorizacao-fora-do-openshift.md),
-[ADR 0012](docs/adr/0012-runner-de-deploy-do-hobby.md)) e entram no código a seguir.
+Todos estão declarados em OpenTofu. O `runner` fica fora dos perfis de memória: liga-se só quando há
+deploy ([ADR 0012](docs/adr/0012-runner-de-deploy-do-hobby.md)).
 
 Três decisões que valem a pena explicar:
 
@@ -310,7 +309,7 @@ aqui é a arquitectura decidida e o esqueleto de código que a implementa.
 | OpenTofu — módulos e ambiente | escrito, validado contra o schema do provider, por validar no metal |
 | Ansible — inventário e papéis | esqueleto |
 | Imagens bootc — Bazzite e devbox | esqueleto, construídas no CI em cada PR que lhes toca |
-| `monitoring`, `pbs`, `runner` | decididos em ADR, por declarar em OpenTofu |
+| `monitoring`, `pbs`, `runner` | declarados em OpenTofu; configuração Ansible por implementar |
 | Casa inteligente | decidida ([ADR 0009](docs/adr/0009-casa-inteligente-home-assistant.md)), por montar |
 | Instalação do OpenShift SNO | documentada, por correr |
 | Argo CD app-of-apps | esqueleto |

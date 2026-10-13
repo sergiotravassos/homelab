@@ -43,6 +43,13 @@ usb_controller_host = null   # ex.: "0000:0a:00.3"
 zigbee_usb_host     = null   # ex.: "10c4:ea60"
 
 # ---------------------------------------------------------------------------
+# Backup — storage do Proxmox no disco externo (pvesm add ...). null até o
+# disco existir. Ver docs/runbooks/03-backup-e-restauro.md
+# ---------------------------------------------------------------------------
+pbs_datastore_storage = null   # ex.: "pbs-externo"
+pbs_datastore_size    = "1500G"
+
+# ---------------------------------------------------------------------------
 # Imagens
 # ---------------------------------------------------------------------------
 fedora_template_vm_id = 9000

@@ -41,8 +41,13 @@ make profile-status     # mostra o que está ligado e quanta RAM está compromet
 
 Os perfis são idempotentes: correr `make profile-dev` duas vezes não faz nada na segunda.
 
-Dois guests contam aqui mas ainda não estão no `scripts/profile.sh`: o `pbs`, que não está declarado
-em OpenTofu, e o `runner`, que se liga à parte quando há deploy e soma 2 GB a qualquer perfil.
+O `runner` é o único guest fora dos perfis: mudar de perfil não o liga nem desliga. Liga-se à parte
+quando há deploy e soma 2 GB a qualquer perfil:
+
+```bash
+make runner-start       # liga o runner (ADR 0012)
+make runner-stop        # desliga-o
+```
 
 ## O caso `full-lab`
 

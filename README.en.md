@@ -126,12 +126,11 @@ Detail, including the addressing plan and the inter-VLAN rules: **[docs/network.
 | `haos` | Home Assistant OS | 2 | 4 GB | 32 GB | 30 | always |
 | `monitoring` | LXC: Prometheus and Grafana | 2 | 1 GB | 30 GB | 20 | always |
 | `opnsense-lab` | OPNsense | 2 | 2 GB | 20 GB | trunk | always |
-| `pbs` | LXC: Proxmox Backup Server | — | 2 GB | — | 10 | always |
-| `runner` | LXC: ephemeral deploy runner | 2 | 2 GB | — | 20 | on demand |
+| `pbs` | LXC: Proxmox Backup Server | 2 | 2 GB | 16 GB + external disk | 10 | always |
+| `runner` | LXC: ephemeral deploy runner | 2 | 2 GB | 30 GB | 20 | `make runner-start` |
 
-The first six are declared in OpenTofu. `monitoring`, `pbs` and `runner` are decided
-([ADR 0010](docs/adr/0010-monitorizacao-fora-do-openshift.md),
-[ADR 0012](docs/adr/0012-runner-de-deploy-do-hobby.md)) and go into code next.
+All of them are declared in OpenTofu. `runner` stays outside the memory profiles: it is switched on
+only when there's a deploy ([ADR 0012](docs/adr/0012-runner-de-deploy-do-hobby.md)).
 
 Three decisions worth explaining:
 
@@ -314,7 +313,7 @@ decided architecture and the code skeleton that implements it.
 | OpenTofu — modules and environment | written, validated against the provider schema, unverified on metal |
 | Ansible — inventory and roles | skeleton |
 | bootc images — Bazzite and devbox | skeleton, built in CI on every PR that touches them |
-| `monitoring`, `pbs`, `runner` | decided in ADRs, not yet declared in OpenTofu |
+| `monitoring`, `pbs`, `runner` | declared in OpenTofu; Ansible configuration not yet implemented |
 | Smart home | decided ([ADR 0009](docs/adr/0009-casa-inteligente-home-assistant.md)), not yet built |
 | OpenShift SNO installation | documented, not yet run |
 | Argo CD app-of-apps | skeleton |

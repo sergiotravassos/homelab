@@ -31,7 +31,7 @@
   </defs>
 
   <text class="t" x="40" y="46">Camada de virtualização — quem recebe o quê</text>
-  <text class="st" x="40" y="70">Seis guests declarados em OpenTofu — monitoring, pbs e runner entram a seguir. A UI web serve para observar, não para provisionar.</text>
+  <text class="st" x="40" y="70">Nove guests em OpenTofu; aqui os seis maiores — monitoring, pbs e runner estão no README. A UI web só observa.</text>
 
   <!-- ================= ROW 1 ================= -->
   <!-- ocp-sno -->

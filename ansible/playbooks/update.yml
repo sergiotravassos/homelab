@@ -35,7 +35,7 @@
       when: reboot_required.stat.exists
 
 - name: Actualizar os guests geridos
-  hosts: platform:workstation
+  hosts: platform:workstation:backup
   become: true
   serial: 1
 

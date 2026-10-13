@@ -13,9 +13,10 @@
 #  1. PÁRA antes de arrancar. Liberta memória primeiro, senão o guest novo pede
 #     RAM que ainda está presa no antigo.
 #
-#  2. Arranca por ordem de VMID. Não é arbitrário: o ocp-sno (120) sobe antes da
-#     devbox (130) porque não tolera ballooning e falha pior se não conseguir
-#     a memória que pediu. Quem chega primeiro é servido.
+#  2. Arranca por ordem de VMID. Não é arbitrário: o opnsense (100) e o pbs (105)
+#     sobem primeiro, e o ocp-sno (120) sobe antes da devbox (130) porque não
+#     tolera ballooning e falha pior se não conseguir a memória que pediu. Quem
+#     chega primeiro é servido.
 
 set -euo pipefail
 
@@ -26,20 +27,27 @@ SSH=(ssh -o BatchMode=yes "${PVE_USER}@${PVE_HOST}")
 # vmid:tipo:nome:ram_gb
 GUESTS=(
   "100:qm:opnsense-lab:2"
+  "105:pct:pbs:2"
   "110:qm:haos:4"
   "120:qm:ocp-sno:24"
   "130:qm:devbox:24"
   "140:qm:bazzite:16"
   "202:pct:registry:2"
+  "203:pct:monitoring:1"
+  "204:pct:runner:2"
 )
+
+# Guests fora dos perfis: aparecem no status, mas mudar de perfil nao os
+# liga nem desliga. O runner liga-se a parte, quando ha deploy (ADR 0012).
+AVULSOS="204"
 
 profile_members() {
   case "$1" in
-    idle)      echo "100 110" ;;
-    gaming)    echo "100 110 140" ;;
-    dev)       echo "100 110 130 202" ;;
-    platform)  echo "100 110 120 202" ;;
-    full-lab)  echo "100 110 120 130 202" ;;
+    idle)      echo "100 105 110 203" ;;
+    gaming)    echo "100 105 110 140 203" ;;
+    dev)       echo "100 105 110 130 202 203" ;;
+    platform)  echo "100 105 110 120 202 203" ;;
+    full-lab)  echo "100 105 110 120 130 202 203" ;;
     *) echo "perfil desconhecido: $1" >&2
        echo "disponiveis: idle gaming dev platform full-lab" >&2
        exit 2 ;;
@@ -89,6 +97,7 @@ cmd_apply() {
   # parar primeiro, para libertar memoria antes de pedir mais
   for g in "${GUESTS[@]}"; do
     IFS=: read -r id type name _ <<<"$g"
+    grep -qw "$id" <<<"$AVULSOS" && continue
     if grep -qx "$id" <<<"$running" && ! grep -qw "$id" <<<"$wanted"; then
       echo "  parar   ${name} (${id})"
       "${SSH[@]}" "$type shutdown $id --timeout 120" || \
@@ -109,8 +118,21 @@ cmd_apply() {
   cmd_status
 }
 
+cmd_avulso() { # $1=start|stop $2=vmid
+  local type name
+  grep -qw "$2" <<<"$AVULSOS" || { echo "$2 nao e um guest avulso" >&2; exit 2; }
+  type="$(meta "$2" 2)"; name="$(meta "$2" 3)"
+  echo "==> ${1} ${name} (${2})"
+  if [[ "$1" == "stop" ]]; then
+    "${SSH[@]}" "$type shutdown $2 --timeout 120" || "${SSH[@]}" "$type stop $2"
+  else
+    "${SSH[@]}" "$type start $2"
+  fi
+}
+
 case "${1:-status}" in
   status) cmd_status ;;
   apply)  cmd_apply "${2:?indica o perfil}" ;;
-  *) echo "uso: $0 {status|apply <perfil>}" >&2; exit 2 ;;
+  start|stop) cmd_avulso "$1" "${2:?indica o vmid}" ;;
+  *) echo "uso: $0 {status|apply <perfil>|start <vmid>|stop <vmid>}" >&2; exit 2 ;;
 esac

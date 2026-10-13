@@ -136,6 +136,14 @@ profile-platform: ## 41 GB — OpenShift + registry
 profile-full-lab: ## 65 GB — tudo menos o gaming (ver docs/capacity.md)
 	@$(PROFILE_SH) apply full-lab
 
+.PHONY: runner-start
+runner-start: ## Liga o runner de deploy (fora dos perfis, +2 GB) — ADR 0012
+	@$(PROFILE_SH) start 204
+
+.PHONY: runner-stop
+runner-stop: ## Desliga o runner de deploy
+	@$(PROFILE_SH) stop 204
+
 ##@ OpenShift
 
 .PHONY: ocp-iso

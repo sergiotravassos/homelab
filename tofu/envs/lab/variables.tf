@@ -103,3 +103,19 @@ variable "zigbee_usb_host" {
   type        = string
   default     = null
 }
+
+variable "pbs_datastore_storage" {
+  description = <<-EOT
+    Storage do Proxmox no disco externo onde vive o datastore do PBS.
+    null cria o contentor sem datastore — util antes de o disco existir.
+    Ver docs/runbooks/03-backup-e-restauro.md
+  EOT
+  type        = string
+  default     = null
+}
+
+variable "pbs_datastore_size" {
+  description = "Tamanho do volume do datastore do PBS, no formato do Proxmox (ex.: \"1500G\")."
+  type        = string
+  default     = "1500G"
+}

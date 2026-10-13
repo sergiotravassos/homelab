@@ -33,3 +33,17 @@
         msg: >-
           Um backup por restaurar nao e um backup. O restauro trimestral esta
           em docs/runbooks/03-backup-e-restauro.md, seccao 4.
+
+- name: Backup — o proprio Proxmox Backup Server
+  hosts: backup
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Proxmox Backup Server no contentor
+      ansible.builtin.debug:
+        msg: >-
+          Por implementar: instalar proxmox-backup-server e criar o datastore
+          {{ pbs_datastore }} em /datastore, o volume no disco externo.
+          Ver tofu/envs/lab/pbs.tf.
+      tags: [pbs]

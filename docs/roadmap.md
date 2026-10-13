@@ -34,7 +34,8 @@ Projecto pessoal, sem prazos. A ordem é por dependência, não por data.
 - [ ] `node_exporter` e `pve-exporter` no host, com token só de leitura
 - [ ] LXC `registry`
 - [ ] Proxmox Backup Server e a primeira **restauração testada** — o backup só conta depois disso
-- [ ] `pbs` declarado em OpenTofu e com a RAM medida, para entrar no perfil `idle` do `profile.sh`
+- [x] `pbs` declarado em OpenTofu e no perfil `idle`
+- [ ] RAM do `pbs` medida durante um vzdump — os 2 GB são um valor de partida
 - [ ] LXC `runner` efémero para os deploys do projecto pessoal — [ADR 0012](adr/0012-runner-de-deploy-do-hobby.md)
 
 ## Fase 3 — Bancada

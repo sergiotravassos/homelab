@@ -31,19 +31,25 @@ locals {
   # Em modo flat os enderecos vem do DHCP do router de casa; em modo vlan
   # sao estaticos e seguem a convencao "ultimo octeto repete a VLAN".
   net = var.network_mode == "vlan" ? {
-    opnsense = { addr = "10.10.10.1/24", gw = "10.10.10.1" }
-    haos     = { addr = "10.10.30.30/24", gw = "10.10.30.1" }
-    ocp_sno  = { addr = "10.10.20.20/24", gw = "10.10.20.1" }
-    devbox   = { addr = "10.10.50.50/24", gw = "10.10.50.1" }
-    bazzite  = { addr = "10.10.40.40/24", gw = "10.10.40.1" }
-    registry = { addr = "10.10.20.23/24", gw = "10.10.20.1" }
+    opnsense   = { addr = "10.10.10.1/24", gw = "10.10.10.1" }
+    haos       = { addr = "10.10.30.30/24", gw = "10.10.30.1" }
+    ocp_sno    = { addr = "10.10.20.20/24", gw = "10.10.20.1" }
+    devbox     = { addr = "10.10.50.50/24", gw = "10.10.50.1" }
+    bazzite    = { addr = "10.10.40.40/24", gw = "10.10.40.1" }
+    registry   = { addr = "10.10.20.23/24", gw = "10.10.20.1" }
+    monitoring = { addr = "10.10.20.24/24", gw = "10.10.20.1" }
+    runner     = { addr = "10.10.20.25/24", gw = "10.10.20.1" }
+    pbs        = { addr = "10.10.10.11/24", gw = "10.10.10.1" }
     } : {
-    opnsense = { addr = "dhcp", gw = null }
-    haos     = { addr = "dhcp", gw = null }
-    ocp_sno  = { addr = "dhcp", gw = null }
-    devbox   = { addr = "dhcp", gw = null }
-    bazzite  = { addr = "dhcp", gw = null }
-    registry = { addr = "dhcp", gw = null }
+    opnsense   = { addr = "dhcp", gw = null }
+    haos       = { addr = "dhcp", gw = null }
+    ocp_sno    = { addr = "dhcp", gw = null }
+    devbox     = { addr = "dhcp", gw = null }
+    bazzite    = { addr = "dhcp", gw = null }
+    registry   = { addr = "dhcp", gw = null }
+    monitoring = { addr = "dhcp", gw = null }
+    runner     = { addr = "dhcp", gw = null }
+    pbs        = { addr = "dhcp", gw = null }
   }
 
   # MAC fixos: o instalador do OpenShift exige-o no agent-config.yaml e as

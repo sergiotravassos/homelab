@@ -9,18 +9,21 @@
 output "guests" {
   description = "Mapa de todos os guests geridos: VMID e endereco."
   value = {
-    opnsense = { id = module.opnsense.vm_id, ip = module.opnsense.ipv4_address }
-    haos     = { id = module.haos.vm_id, ip = module.haos.ipv4_address }
-    ocp_sno  = { id = module.ocp_sno.vm_id, ip = module.ocp_sno.ipv4_address }
-    devbox   = { id = module.devbox.vm_id, ip = module.devbox.ipv4_address }
-    bazzite  = { id = module.bazzite.vm_id, ip = module.bazzite.ipv4_address }
-    registry = { id = module.registry.vm_id, ip = module.registry.ipv4_address }
+    opnsense   = { id = module.opnsense.vm_id, ip = module.opnsense.ipv4_address }
+    haos       = { id = module.haos.vm_id, ip = module.haos.ipv4_address }
+    ocp_sno    = { id = module.ocp_sno.vm_id, ip = module.ocp_sno.ipv4_address }
+    devbox     = { id = module.devbox.vm_id, ip = module.devbox.ipv4_address }
+    bazzite    = { id = module.bazzite.vm_id, ip = module.bazzite.ipv4_address }
+    registry   = { id = module.registry.vm_id, ip = module.registry.ipv4_address }
+    monitoring = { id = module.monitoring.vm_id, ip = module.monitoring.ipv4_address }
+    runner     = { id = module.runner.vm_id, ip = module.runner.ipv4_address }
+    pbs        = { id = module.pbs.vm_id, ip = module.pbs.ipv4_address }
   }
 }
 
 output "memory_committed_gb" {
   description = "Memoria total declarada pelos guests. Comparar com 64 GB fisicos menos 6 GB de host."
-  value       = (2048 + 4096 + 24576 + 24576 + 16384 + 2048) / 1024
+  value       = (2048 + 4096 + 24576 + 24576 + 16384 + 2048 + 1024 + 2048 + 2048) / 1024
 }
 
 output "network_mode" {

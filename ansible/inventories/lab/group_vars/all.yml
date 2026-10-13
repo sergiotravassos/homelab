@@ -55,3 +55,6 @@ common_packages:
   - tmux
   - rsync
   - chrony
+
+# Nome do datastore do PBS. Usado pelo host (vzdump) e pelo proprio contentor pbs.
+pbs_datastore: homelab
