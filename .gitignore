@@ -61,3 +61,8 @@ agent.x86_64.iso
 tmp/
 scratch/
 *.log
+
+# ---- Rede física de casa (PRIVADO: equipamentos, preços, MAC, IP público, DNS) ----
+docs/rede-casa.md
+docs/diagrams/interativos/rede-casa*.html
+docs/diagrams/interativos/rede-casa*.json
