@@ -5,21 +5,21 @@ pesada de cada vez — nunca para todas.
 
 ## Lista de material
 
-| Componente | Modelo | Notas de operação |
+| Componente | Classe | Notas de operação |
 |---|---|---|
-| CPU | AMD Ryzen 9 9950X3D | 16C / 32T, dois CCDs assimétricos. Ver [Topologia de CPU](#topologia-de-cpu) |
-| Motherboard | ASUS ROG Strix B850-I Gaming WiFi | Mini-ITX AM5. 2 × DIMM, 2 × M.2, 1 × PCIe 5.0 x16 ligado ao CPU |
-| RAM | Kingston FURY Beast 64 GB (2 × 32 GB) DDR5-6000 CL30 | Perfil EXPO. Ver [Memória](#memória) |
-| Armazenamento | Samsung 990 PRO 2 TB (MZ-V9P1T0BW) | PCIe 4.0 x4, 1 200 TBW. Pool ZFS única |
-| GPU | Sapphire PULSE Radeon RX 9060 XT 16 GB | RDNA 4. Passada inteira à VM `bazzite` |
-| Rede | Realtek RTL8125 2.5 GbE (integrada) | Uplink único. Wi-Fi 7 não usado para tráfego de lab |
-| Alimentação | Corsair SF850 (2024) 850 W SFX 80+ Platinum | Ventoinha parada abaixo de ~40 % de carga |
-| Arrefecimento | Thermalright AXP120-X67 | Ar, low-profile. Sem bomba a envelhecer |
-| Caixa | Fractal Design Ridge | SFF vertical, GPU em câmara térmica separada |
+| CPU | AMD Ryzen 9 X3D (dual-CCD) | 16C / 32T, dois CCDs assimétricos. Ver [Topologia de CPU](#topologia-de-cpu) |
+| Motherboard | Mini-ITX AM5 (chipset B850) | 2 × DIMM, 2 × M.2, 1 × PCIe 5.0 x16 ligado ao CPU |
+| RAM | 64 GB (2 × 32 GB) DDR5-6000 CL30 | Perfil EXPO. Ver [Memória](#memória) |
+| Armazenamento | NVMe 2 TB PCIe 4.0 (~1 200 TBW) | Pool ZFS única |
+| GPU | AMD RDNA 4, 16 GB | Passada inteira à VM `bazzite` |
+| Rede | 2.5 GbE integrada | Uplink único. Wi-Fi não usado para tráfego de lab |
+| Alimentação | SFX 850 W 80+ Platinum | Ventoinha parada abaixo de ~40 % de carga |
+| Arrefecimento | Cooler a ar low-profile | Sem bomba a envelhecer |
+| Caixa | SFF vertical | GPU em câmara térmica separada |
 
 ## Topologia de CPU
 
-O 9950X3D não é um CPU homogéneo, e tratá-lo como tal é o erro mais comum com esta peça.
+Um X3D de dois CCDs não é um CPU homogéneo, e tratá-lo como tal é o erro mais comum com esta peça.
 
 | | CCD 0 | CCD 1 |
 |---|---|---|
@@ -78,7 +78,7 @@ Resumo:
 
 - **ZFS num disco só** não dá redundância, mas dá *checksums*, snapshots baratos e `zfs send` para o
   backup. A alternativa (LVM-thin) é mais leve em escrita e não dá nada disto.
-- **Amplificação de escrita.** O 990 PRO tem 1 200 TBW. Com `atime=off`, `zstd` e `volblocksize` de
+- **Amplificação de escrita.** O NVMe tem ~1 200 TBW. Com `atime=off`, `zstd` e `volblocksize` de
   16 K nos zvols, o desgaste esperado de um lab está confortavelmente dentro da garantia.
 - **O segundo slot M.2 está livre.** O primeiro upgrade planeado é separar o boot dos dados dos
   guests. Não urge — urge é o backup existir.
@@ -88,7 +88,7 @@ Resumo:
 Uma NIC de 2.5 GbE. Toda a segmentação é 802.1Q sobre esse único link, contra um switch gerível.
 Ver **[network.md](network.md)** e [`adr/0005-vlans-com-switch-gerivel.md`](adr/0005-vlans-com-switch-gerivel.md).
 
-O Wi-Fi 7 fica desligado para tráfego de lab: um bridge sem fios não faz VLAN tagging de forma
+O Wi-Fi fica desligado para tráfego de lab: um bridge sem fios não faz VLAN tagging de forma
 previsível e não vale o depuramento. O Bluetooth é passado por USB à `bazzite`, para os comandos.
 
 ## Orçamento térmico e energia
