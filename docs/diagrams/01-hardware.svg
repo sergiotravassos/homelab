@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" role="img" aria-label="Blueprint físico do nó homelab: motherboard B850-I, Ryzen 9950X3D com dois CCDs, 64GB DDR5, NVMe, RX 9060 XT em passthrough">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" role="img" aria-label="Blueprint físico do nó homelab: motherboard Mini-ITX AM5 (B850), Ryzen 9 X3D com dois CCDs, 64GB DDR5, NVMe, GPU AMD RDNA 4 16 GB em passthrough">
   <style>
     :root{
       --bg:#ffffff; --surface:#f6f8fa; --surface2:#eaeef2; --border:#d0d7de;
@@ -29,17 +29,17 @@
   <rect width="1200" height="760" fill="var(--bg)"/>
 
   <text class="t" x="40" y="46">Camada física — nó único “forge”</text>
-  <text class="st" x="40" y="70">Mini-ITX AM5 · Fractal Ridge · tudo o que está abaixo desta linha é montado à mão, uma única vez</text>
+  <text class="st" x="40" y="70">Mini-ITX AM5 · caixa SFF · tudo o que está abaixo desta linha é montado à mão, uma única vez</text>
 
   <!-- ============ MOTHERBOARD ============ -->
   <rect class="board" x="40" y="96" width="770" height="628"/>
-  <text class="h" x="62" y="126">ASUS ROG Strix B850-I Gaming WiFi</text>
+  <text class="h" x="62" y="126">Mini-ITX AM5 (B850)</text>
   <text class="s" x="62" y="145">Mini-ITX · AM5 · 2 × DIMM · 2 × M.2 · 1 × PCIe 5.0 x16</text>
 
   <!-- CPU package -->
   <rect class="card" x="62" y="162" width="440" height="248"/>
   <rect x="62" y="162" width="440" height="30" rx="10" fill="var(--infra)" opacity="0.14"/>
-  <text class="l" x="78" y="182" fill="var(--infra)">AMD Ryzen 9 9950X3D · 16C / 32T · 170 W</text>
+  <text class="l" x="78" y="182" fill="var(--infra)">Ryzen 9 X3D (dual-CCD) · 16C / 32T · 170 W</text>
 
   <rect class="card2" x="80" y="206" width="196" height="110"/>
   <text class="l" x="94" y="228">CCD 0 — 3D V-Cache</text>
@@ -68,8 +68,8 @@
   <text class="l" x="536" y="222">32 GB</text>
   <text class="s" x="536" y="242">DDR5-6000</text>
   <text class="s" x="536" y="260">CL30 · EXPO</text>
-  <text class="xs" x="536" y="286">Kingston</text>
-  <text class="xs" x="536" y="302">FURY Beast</text>
+  <text class="xs" x="536" y="286">kit 64 GB</text>
+  <text class="xs" x="536" y="302">DDR5-6000</text>
 
   <rect class="card" x="662" y="162" width="128" height="248"/>
   <rect x="662" y="162" width="128" height="30" rx="10" fill="var(--data)" opacity="0.14"/>
@@ -85,7 +85,7 @@
   <!-- M.2 -->
   <rect class="card" x="62" y="428" width="360" height="82"/>
   <text class="l" x="78" y="452">M.2_1 · PCIe 4.0 x4 (CPU)</text>
-  <text class="s" x="78" y="472">Samsung 990 PRO 2 TB · MZ-V9P1T0BW</text>
+  <text class="s" x="78" y="472">NVMe 2 TB · PCIe 4.0</text>
   <text class="mono" x="78" y="492">rpool — ZFS · boot + zvols das VMs</text>
 
   <rect class="dash" x="440" y="428" width="350" height="82"/>
@@ -97,14 +97,14 @@
   <rect class="card" x="62" y="526" width="728" height="86"/>
   <rect x="62" y="526" width="728" height="30" rx="10" fill="var(--game)" opacity="0.14"/>
   <text class="l" x="78" y="546" fill="var(--game)">PCIe 5.0 x16 — slot único</text>
-  <text class="l" x="78" y="578">Sapphire PULSE Radeon RX 9060 XT 16 GB (RDNA 4)</text>
+  <text class="l" x="78" y="578">GPU AMD RDNA 4 16 GB</text>
   <text class="mono" x="78" y="598">vfio-pci no boot · IOMMU group dedicado · passthrough para a VM Bazzite</text>
   <rect x="646" y="531" width="128" height="20" class="pill" fill="var(--game)" opacity="0.22"/>
   <text class="xs" x="660" y="545" fill="var(--game)" font-weight="700">PASSTHROUGH</text>
 
   <!-- IO -->
   <rect class="card" x="62" y="628" width="360" height="76"/>
-  <text class="l" x="78" y="652">Realtek RTL8125 · 2.5 GbE</text>
+  <text class="l" x="78" y="652">2.5 GbE integrada</text>
   <text class="s" x="78" y="672">Único uplink com fio → porta trunk 802.1Q</text>
   <text class="mono" x="78" y="692">vmbr0 VLAN-aware · todas as VLANs aqui</text>
 
@@ -116,17 +116,17 @@
   <!-- ============ RIGHT COLUMN ============ -->
   <rect class="card" x="840" y="96" width="320" height="176"/>
   <text class="h" x="860" y="126">Chassis &amp; térmica</text>
-  <text class="s" x="860" y="152">Fractal Design Ridge — SFF vertical,</text>
+  <text class="s" x="860" y="152">Caixa SFF vertical,</text>
   <text class="s" x="860" y="170">GPU em câmara separada do CPU.</text>
-  <text class="s" x="860" y="196">Thermalright AXP120-X67 — cooler</text>
-  <text class="s" x="860" y="214">low-profile, ar. Sem AIO, sem bomba</text>
+  <text class="s" x="860" y="196">Cooler a ar low-profile —</text>
+  <text class="s" x="860" y="214">sem AIO, sem bomba</text>
   <text class="s" x="860" y="232">a falhar num equipamento 24/7.</text>
-  <text class="s" x="860" y="258">Corsair SF850 · 850 W SFX Platinum</text>
+  <text class="s" x="860" y="258">SFX 850 W · 80+ Platinum</text>
 
   <rect class="card" x="840" y="288" width="320" height="200"/>
   <text class="h" x="860" y="318">Orçamento térmico 24/7</text>
   <text class="s" x="860" y="344">Este nó fica ligado permanentemente.</text>
-  <text class="s" x="860" y="362">O 9950X3D corre com PBO desligado e</text>
+  <text class="s" x="860" y="362">O Ryzen 9 X3D corre com PBO desligado e</text>
   <text class="s" x="860" y="380">um limite de PPT conservador — perde-se</text>
   <text class="s" x="860" y="398">pouco em builds e ganha-se silêncio e</text>
   <text class="s" x="860" y="416">vida útil.</text>

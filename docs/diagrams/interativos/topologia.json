@@ -478,8 +478,8 @@
   {
    "id": "nic",
    "type": "external",
-   "label": "RTL8125",
-   "sublabel": "2.5 GbE · uplink único",
+   "label": "NIC 2.5 GbE",
+   "sublabel": "uplink único",
    "pos": [
     320,
     40
@@ -565,7 +565,7 @@
   {
    "id": "gpu",
    "type": "external",
-   "label": "RX 9060 XT 16 GB",
+   "label": "GPU AMD RDNA 4 16 GB",
    "sublabel": "+ USB traseiro e Bluetooth",
    "pos": [
     280,
@@ -614,7 +614,7 @@
   {
    "id": "nvme",
    "type": "database",
-   "label": "990 PRO 2 TB",
+   "label": "NVMe 2 TB",
    "sublabel": "ZFS rpool · zvols",
    "pos": [
     900,
@@ -778,7 +778,7 @@
    "title": "A GPU é de uma VM só",
    "items": [
     "A bazzite recebe a placa inteira por vfio-pci",
-    "O host fica com a iGPU do 9950X3D para a consola"
+    "O host fica com a iGPU do Ryzen 9 X3D para a consola"
    ]
   },
   {
@@ -793,7 +793,7 @@
    "dot": "slate",
    "title": "Um disco, backup fora dele",
    "items": [
-    "Todos os guests vivem na rpool do 990 PRO",
+    "Todos os guests vivem na rpool do NVMe",
     "O PBS escreve num disco externo, nunca na rpool"
    ]
   }

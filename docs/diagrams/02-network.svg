@@ -66,7 +66,7 @@
 
   <rect class="card" x="40" y="600" width="264" height="88"/>
   <text class="l" x="58" y="626">TV / sala</text>
-  <text class="s" x="58" y="646">Recebe HDMI directo da RX 9060 XT.</text>
+  <text class="s" x="58" y="646">Recebe HDMI directo da GPU RDNA 4.</text>
   <text class="s" x="58" y="662">Não passa pela rede — é a saída</text>
   <text class="s" x="58" y="678">física da VM Bazzite.</text>
 

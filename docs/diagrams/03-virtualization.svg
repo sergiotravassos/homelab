@@ -87,7 +87,7 @@
   <text class="l" x="938" y="207">16 GB</text><text class="xs" x="938" y="223">hugepages</text>
   <rect class="chip" x="1034" y="190" width="108" height="40"/>
   <text class="l" x="1046" y="207">250 GB</text><text class="xs" x="1046" y="223">zvol rpool</text>
-  <text class="s" x="818" y="256">Recebe a RX 9060 XT inteira, o controlador</text>
+  <text class="s" x="818" y="256">Recebe a GPU RDNA 4 inteira, o controlador</text>
   <text class="s" x="818" y="274">USB traseiro e o Bluetooth. CPU governor</text>
   <text class="s" x="818" y="292">performance, isolcpus nos cores do CCD 0.</text>
   <text class="mono" x="818" y="318">q35 · OVMF · vIOMMU off · MSI on</text>
@@ -156,15 +156,15 @@
   <rect class="card" x="40" y="738" width="1120" height="106"/>
   <text class="h" x="58" y="768">Hardware</text>
   <rect class="chip" x="200" y="752" width="176" height="38"/>
-  <text class="l" x="214" y="768">Ryzen 9 9950X3D</text><text class="xs" x="214" y="784">16C / 32T · 2 CCDs</text>
+  <text class="l" x="214" y="768">Ryzen 9 X3D</text><text class="xs" x="214" y="784">16C / 32T · 2 CCDs</text>
   <rect class="chip" x="388" y="752" width="150" height="38"/>
   <text class="l" x="402" y="768">64 GB DDR5</text><text class="xs" x="402" y="784">6000 CL30 EXPO</text>
   <rect class="chip" x="550" y="752" width="160" height="38"/>
-  <text class="l" x="564" y="768">990 PRO 2 TB</text><text class="xs" x="564" y="784">PCIe 4.0 NVMe</text>
+  <text class="l" x="564" y="768">NVMe 2 TB</text><text class="xs" x="564" y="784">PCIe 4.0</text>
   <rect class="chip" x="900" y="752" width="180" height="38" stroke="var(--game)" stroke-width="2"/>
-  <text class="l" x="914" y="768" fill="var(--game)">RX 9060 XT 16 GB</text><text class="xs" x="914" y="784">vfio-pci</text>
+  <text class="l" x="914" y="768" fill="var(--game)">GPU AMD RDNA 4 16 GB</text><text class="xs" x="914" y="784">vfio-pci</text>
   <rect class="chip" x="722" y="752" width="166" height="38"/>
-  <text class="l" x="736" y="768">RTL8125 2.5 GbE</text><text class="xs" x="736" y="784">trunk 802.1Q</text>
+  <text class="l" x="736" y="768">2.5 GbE</text><text class="xs" x="736" y="784">trunk 802.1Q</text>
   <text class="s" x="58" y="820">Reservado ao host: ~6 GB de RAM (ARC + serviços). Restam ~58 GB para guests — o teto real de tudo o que está acima.</text>
 
   <!-- passthrough line -->

@@ -732,7 +732,7 @@
   {
    "id": "gpu",
    "type": "external",
-   "label": "RX 9060 XT 16 GB",
+   "label": "GPU AMD RDNA 4 16 GB",
    "sublabel": "+ USB traseiro e Bluetooth",
    "pos": [
     1440,
@@ -843,7 +843,7 @@
    "title": "A GPU é de uma VM só",
    "items": [
     "A bazzite recebe a placa inteira, mais USB e Bluetooth",
-    "O host usa a iGPU do 9950X3D para a consola"
+    "O host usa a iGPU do Ryzen 9 X3D para a consola"
    ]
   },
   {
