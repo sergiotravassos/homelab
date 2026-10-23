@@ -85,7 +85,7 @@ variable "ocp_iso_file_id" {
 
 variable "gpu_pci_id" {
   description = <<-EOT
-    Endereco PCI da RX 9060 XT, apurado com 'lspci -nn' no host.
+    Endereco PCI da GPU dedicada, apurado com 'lspci -nn' no host.
     null desliga o passthrough — util para arrancar a bazzite sem GPU e diagnosticar.
   EOT
   type        = string

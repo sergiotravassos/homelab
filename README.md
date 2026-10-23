@@ -66,15 +66,15 @@ Máquina única, montada para correr 24/7 em silêncio, com folga para uma carga
 
 | Componente | Escolha | Porquê |
 |---|---|---|
-| CPU | AMD Ryzen 9 9950X3D — 16C / 32T | Dois CCDs com perfis diferentes: o CCD 0 tem 3D V-Cache e vai para o gaming, o CCD 1 tem frequência alta e leva o OpenShift e os builds |
-| Motherboard | ASUS ROG Strix B850-I Gaming WiFi | Mini-ITX AM5; o slot x16 é ligado directamente ao CPU, o que dá um grupo IOMMU limpo para passthrough |
-| RAM | Kingston FURY Beast 64 GB (2 × 32) DDR5-6000 CL30 EXPO | O recurso mais escasso do lab. Ver [Capacidade](#capacidade) |
-| Armazenamento | Samsung 990 PRO 2 TB PCIe 4.0 NVMe | Pool ZFS única. O segundo slot M.2 está livre e é o próximo upgrade |
-| GPU | Sapphire PULSE Radeon RX 9060 XT 16 GB | Passada inteira à VM Bazzite. A iGPU do 9950X3D fica com a consola do host |
-| Rede | Realtek RTL8125 2.5 GbE | Uma só NIC — daí a segmentação ser 802.1Q e não física |
-| Alimentação | Corsair SF850 (2024) 850 W SFX Platinum | Margem confortável e ventoinha parada em carga baixa |
-| Arrefecimento | Thermalright AXP120-X67 | Ar, sem bomba a falhar num equipamento que nunca desliga |
-| Caixa | Fractal Design Ridge | SFF vertical, GPU em câmara separada |
+| CPU | AMD Ryzen 9 X3D (dual-CCD) — 16C / 32T | Dois CCDs com perfis diferentes: o CCD 0 tem 3D V-Cache e vai para o gaming, o CCD 1 tem frequência alta e leva o OpenShift e os builds |
+| Motherboard | Mini-ITX AM5 (B850) | Mini-ITX AM5; o slot x16 é ligado directamente ao CPU, o que dá um grupo IOMMU limpo para passthrough |
+| RAM | 64 GB (2 × 32) DDR5-6000 CL30 EXPO | O recurso mais escasso do lab. Ver [Capacidade](#capacidade) |
+| Armazenamento | NVMe 2 TB PCIe 4.0 | Pool ZFS única. O segundo slot M.2 está livre e é o próximo upgrade |
+| GPU | GPU AMD RDNA 4, 16 GB | Passada inteira à VM Bazzite. A iGPU do X3D fica com a consola do host |
+| Rede | 2.5 GbE integrada | Uma só NIC — daí a segmentação ser 802.1Q e não física |
+| Alimentação | SFX 850 W Platinum | Margem confortável e ventoinha parada em carga baixa |
+| Arrefecimento | Cooler a ar low-profile | Ar, sem bomba a falhar num equipamento que nunca desliga |
+| Caixa | SFF vertical | SFF vertical, GPU em câmara separada |
 
 Detalhe completo, incluindo o mapa de cores por CCD e o orçamento térmico: **[docs/hardware.md](docs/hardware.md)**.
 
@@ -132,10 +132,10 @@ Três decisões que valem a pena explicar:
 
 **A GPU pertence a uma VM de cada vez.** Há um slot PCIe e uma placa. A `bazzite` recebe-a inteira via
 `vfio-pci`, junto com o controlador USB traseiro e o Bluetooth. O host usa a gráfica integrada do
-9950X3D para a consola. Não há partilha, não há SR-IOV nesta placa, e o repositório diz isso em vez de
+X3D para a consola. Não há partilha, não há SR-IOV nesta placa, e o repositório diz isso em vez de
 prometer o contrário.
 
-**O pinning por CCD não é decorativo.** O 9950X3D tem 64 MB de cache empilhada apenas no CCD 0. Fixar
+**O pinning por CCD não é decorativo.** O X3D tem 64 MB de cache empilhada apenas no CCD 0. Fixar
 a VM de jogos nesses cores e empurrar o OpenShift e os builds para o CCD 1 evita que o escalonador
 ande a atirar threads entre dies — que é o problema clássico dos X3D de dois CCDs.
 

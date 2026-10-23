@@ -18,7 +18,7 @@ zfs_scrub_schedule: "0 4 1-7 * 0"
 # Ver docs/gpu-passthrough.md
 # ---------------------------------------------------------------------------
 vfio_device_ids: []
-#   - "1002:xxxx"   # Sapphire PULSE RX 9060 XT
+#   - "1002:xxxx"   # GPU AMD RDNA 4
 #   - "1002:xxxx"   # funcao de audio HDMI da mesma placa
 
 vfio_blacklist_modules:

@@ -4,7 +4,7 @@
 
 ## Contexto
 
-A máquina tem uma placa gráfica dedicada (RX 9060 XT) e um slot PCIe x16. O 9950X3D traz gráficos
+A máquina tem uma placa gráfica dedicada (AMD RDNA 4) e um slot PCIe x16. O X3D traz gráficos
 integrados. Uma das VMs é uma Steam Machine ligada à televisão, que precisa de desempenho gráfico
 real e de latência baixa.
 

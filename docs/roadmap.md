@@ -4,7 +4,7 @@ Projecto pessoal, sem prazos. A ordem é por dependência, não por data.
 
 ## Fase 0 — Metal
 
-- [ ] Montar a máquina na Fractal Ridge
+- [ ] Montar a máquina na caixa SFF
 - [ ] `memtest86+` com EXPO activo, uma passagem completa
 - [ ] Apurar a numeração dos CCDs e registá-la em `group_vars`
 - [ ] Instalar o Proxmox VE, à mão, com ZFS na `rpool`

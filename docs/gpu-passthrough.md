@@ -1,6 +1,6 @@
 # Passthrough da GPU
 
-A RX 9060 XT é entregue inteira à VM `bazzite`. O host fica com a gráfica integrada do 9950X3D para
+A GPU dedicada é entregue inteira à VM `bazzite`. O host fica com a gráfica integrada do X3D para
 a consola. Não há partilha: esta placa não faz SR-IOV nem vGPU, e o repositório não promete o
 contrário.
 
@@ -53,7 +53,7 @@ done | sort -V
 lspci -nn | grep -i -e VGA -e Audio
 ```
 
-O slot x16 do B850-I é ligado directamente ao CPU, pelo que a GPU e o seu dispositivo de áudio devem
+O slot x16 da motherboard é ligado directamente ao CPU, pelo que a GPU e o seu dispositivo de áudio devem
 aparecer sozinhos num grupo. **Se aparecerem acompanhados de outro dispositivo, parar aqui**: passar
 um grupo partilhado corrompe o host. A solução nesse caso é mudar o dispositivo intruso de slot, não
 aplicar o *patch* ACS — que desactiva um isolamento real em troca de conveniência.
@@ -62,7 +62,7 @@ Os IDs apurados vão para `ansible/inventories/lab/group_vars/proxmox.yml`:
 
 ```yaml
 vfio_device_ids:
-  - "1002:xxxx"   # Radeon RX 9060 XT           <- preencher no metal
+  - "1002:xxxx"   # GPU AMD RDNA 4           <- preencher no metal
   - "1002:xxxx"   # dispositivo de áudio HDMI    <- preencher no metal
 ```
 

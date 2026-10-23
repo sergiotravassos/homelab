@@ -38,14 +38,14 @@ incluindo do erro mais provável neste lab, que sou eu.
   em operações reversíveis.
 - Checksums detectam corrupção silenciosa em vez de a propagarem para os backups.
 - `zfs send` incremental torna o backup barato.
-- `zstd` dá compressão útil sem custo mensurável de CPU num 9950X3D.
+- `zstd` dá compressão útil sem custo mensurável de CPU num X3D.
 
 **Negativas**
 
 - **Um disco é um ponto único de falha.** Assumido, mitigado por backup, não resolvido.
 - A ARC compete com os guests pela memória — o recurso escasso. Limitada a 8 GB, ou 4 GB no perfil
   `full-lab`. Ver [`capacity.md`](../capacity.md).
-- Amplificação de escrita reduz a vida do SSD. O 990 PRO tem 1 200 TBW; com `atime=off` e
+- Amplificação de escrita reduz a vida do SSD. O NVMe tem 1 200 TBW; com `atime=off` e
   `volblocksize` de 16 K nos zvols, o desgaste esperado de um lab fica dentro da garantia. A ser
   monitorizado por SMART, não presumido.
 - O `rpool` acima de 80 % degrada em escrita. É uma verificação de rotina, não um alarme surpresa.
